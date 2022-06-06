@@ -1,5 +1,5 @@
 ---
-- name: Configure Apache.
+- name: Configure Apache's ports configuration.
   lineinfile:
     dest: "{{ apache_server_root }}/conf/{{ apache_daemon }}.conf"
     regexp: "{{ item.regexp }}"
@@ -9,12 +9,12 @@
   with_items: "{{ apache_ports_configuration_items }}"
   notify: restart apache
 
-- name: Check whether certificates defined in vhosts exist.
+- name: check whether certificates defined in vhosts exist
   stat: path={{ item.certificate_file }}
   register: apache_ssl_certificates
   with_items: "{{ apache_vhosts_ssl }}"
 
-- name: Enable Apache mods.
+- name: Enable configured Apache mods (Debian).
   copy:
     dest: "{{ apache_server_root }}/conf.modules.d/99-ansible-{{ item }}.conf"
     content: |
@@ -23,14 +23,14 @@
   with_items: "{{ apache_mods_enabled }}"
   notify: restart apache
 
-- name: Disable Apache mods
+- name: Disable configured Apache mods (Debian).
   file:
     path: "{{ apache_server_root }}/conf.modules.d/99-ansible-{{ item }}.conf"
     state: absent
   with_items: "{{ apache_mods_disabled }}"
   notify: restart apache
 
-- name: Add apache vhosts configuration.
+- name: Generate configured Apache VirtualHost file and ensure correct owner/group/mode.
   template:
     src: "{{ apache_vhosts_template }}"
     dest: "{{ apache_conf_path }}/{{ apache_vhosts_filename }}"
@@ -40,7 +40,7 @@
   notify: restart apache
   when: apache_create_vhosts | bool
 
-- name: Check if localhost cert exists (RHEL 8 and later).
+- name: check if localhost cert exists (RHEL 8 and later)
   stat:
     path: /etc/pki/tls/certs/localhost.crt
   register: localhost_cert

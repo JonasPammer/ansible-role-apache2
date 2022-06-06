@@ -1,5 +1,5 @@
 ---
-- name: Configure Apache.
+- name: Configure Apache's ports configuration.
   lineinfile:
     dest: "{{ apache_server_root }}/{{ apache_daemon }}.conf"
     regexp: "{{ item.regexp }}"
@@ -9,7 +9,7 @@
   with_items: "{{ apache_ports_configuration_items }}"
   notify: restart apache
 
-- name: Add apache vhosts configuration.
+- name: Generate configured Apache VirtualHost file and ensure correct owner/group/mode.
   template:
     src: "{{ apache_vhosts_template }}"
     dest: "{{ apache_conf_path }}/{{ apache_vhosts_filename }}"

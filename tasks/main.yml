@@ -6,11 +6,12 @@
   run_once: true
   delegate_to: localhost
 
-# Setup/install tasks.
+### Setup/Install tasks ###
 - name: include OS-specific installation and setup tasks
   include_tasks: "setup-{{ ansible_os_family }}.yml"
 
-# Figure out what version of Apache is installed.
+### Configure tasks ###
+## Figure out what version of Apache is installed ##
 - name: get installed version of Apache
   command: "{{ apache_daemon_path }}{{ apache_daemon }} -v"
   changed_when: false
@@ -29,7 +30,6 @@
   include_vars: apache-24.yml
   when: "apache_version.split('.')[1] == '4'"
 
-# Configure Apache.
 - name: include OS-specific configuration tasks
   include_tasks: "configure-{{ ansible_os_family }}.yml"
 
