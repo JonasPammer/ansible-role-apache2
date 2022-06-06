@@ -1,7 +1,7 @@
 ---
 galaxy_info:
   role_name: "apache2"
-  description: "An ansible role for installing Apache2, enabling/disabling modules, configuring its defaults and creating virtual hosts.."
+  description: "An ansible role for installing Apache2, enabling/disabling modules, configuring its defaults and creating virtual hosts."
 
   author: "jonaspammer"
   license: MIT
@@ -24,7 +24,17 @@ galaxy_info:
         - xenial # ubuntu1604 (actively tested)
         - bionic # ubuntu1804 (actively tested)
         - focal # ubuntu2004 (actively tested)
+    - name: Solaris
+      versions:
+        - "11.3" # warning: not actively tested
 
-  galaxy_tags: []
+  galaxy_tags:
+    - web
+    - apache
+    - webserver
+    - html
+    - httpd
 
 dependencies: []
+
+allow_duplicates: true
