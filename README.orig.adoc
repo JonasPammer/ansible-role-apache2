@@ -18,7 +18,7 @@ endif::[]
 https://github.com/JonasPammer/ansible-role-apache2/actions/workflows/ci.yml[image:https://github.com/JonasPammer/ansible-role-apache2/actions/workflows/ci.yml/badge.svg[Testing CI]]
 
 
-An Ansible role for installing Apache2, enabling/disabling modules, configuring its defaults and creating virtual hosts..
+An Ansible role for installing Apache2, enabling/disabling modules, configuring its defaults and creating virtual hosts.
 
 
 toc::[]
