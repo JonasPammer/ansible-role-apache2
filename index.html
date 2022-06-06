@@ -767,8 +767,25 @@ pre.rouge {
 <p>The Ansible User needs to be able to <code>become</code>.</p>
 </div>
 <div class="paragraph">
-<p>The <a href="https://galaxy.ansible.com/community/general"><code>community.general</code> collection</a>
-must be installed on the Ansible controller.</p>
+<p>If you are using SSL/TLS (<a href="#apache_ssl_vhosts">[apache_ssl_vhosts]</a>), you will need to provide your own certificate and key files.</p>
+</div>
+<div class="paragraph">
+<p>If you are using Apache with PHP, I recommend using the
+<a href="https://github.com/geerlingguy/ansible-role-php/">geerlingguy.php</a> role
+to install PHP, and you can either use <code>mod_php</code>
+(by adding the proper package, e.g. <code>libapache2-mod-php5</code> for Ubuntu, to <code>php_packages</code>),
+or by also using <code>geerlingguy.apache-php-fpm</code> to connect Apache to PHP via FPM.
+Please consult the README&#8217;s of the linked roles for more specific information.</p>
+</div>
+<div class="paragraph">
+<p>When targeting Solaris-based systems,
+the <a href="https://galaxy.ansible.com/community/general"><code>community.general</code> collection</a>
+(containing the <code>pkg5</code> module) must be installed on the Ansible controller.</p>
+</div>
+<div class="paragraph">
+<p>When targeting Suse-based systems,
+<a href="https://galaxy.ansible.com/community/general"><code>community.general</code> collection</a>
+(containing the <code>zypper</code> module) must be installed on the Ansible controller.</p>
 </div>
 </div>
 </div>
@@ -1365,7 +1382,7 @@ SOFTWARE.</pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-06-06 13:12:21 UTC
+Last updated 2022-06-06 13:18:57 UTC
 </div>
 </div>
 </body>
