@@ -1,0 +1,15 @@
+---
+# vars file of ansible-role jonaspammer.apache2
+# (tl;dr: almost not overwrite-able variables)
+
+_apache2_somevar:
+  Debian: ""
+  Debian_10: ""
+  RedHat: ""
+
+apache2_somevar: "{{
+  _apache2_somevar[ansible_distribution ~ '_' ~ ansible_distribution_major_version]|default(
+  _apache2_somevar[ansible_os_family ~ '_' ~ ansible_distribution_major_version])|default(
+  _apache2_somevar[ansible_distribution])|default(
+  _apache2_somevar[ansible_os_family])|default(
+  _apache2_somevar['default']) }}"

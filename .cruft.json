@@ -1,0 +1,23 @@
+{
+  "template": "https://github.com/JonasPammer/cookiecutter-ansible-role.git",
+  "commit": "9bbb88b544eb7310f4c728583b5836a713e8d043",
+  "checkout": null,
+  "context": {
+    "cookiecutter": {
+      "full_name": "Jonas Pammer",
+      "email": "opensource@jonaspammer.at",
+      "code_of_conduct_enforcement_contact_email": "opensource@jonaspammer.at",
+      "github_username": "JonasPammer",
+      "galaxy_name": "jonaspammer",
+      "min_ansible_version": "2.9",
+      "allow_duplicates": "no",
+      "ansible_user_needs_to_become": "True",
+      "role_name_": "apache2",
+      "role_name": "apache2",
+      "project_slug": "ansible-role-apache2",
+      "project_short_purpose": "installing Apache2, enabling/disabling modules, configuring its defaults and creating virtual hosts.",
+      "_template": "https://github.com/JonasPammer/cookiecutter-ansible-role.git"
+    }
+  },
+  "directory": null
+}
