@@ -125,12 +125,6 @@ repos:
     hooks:
       - id: flake8
 
-  # a tool designed to find common security issues in Python code.
-  - repo: https://github.com/PyCQA/bandit
-    rev: "1.7.4"
-    hooks:
-      - id: bandit
-
 default_language_version:
   python: python3
 ci:
