@@ -2,106 +2,106 @@
 # vars file of ansible-role jonaspammer.apache2
 # (tl;dr: almost not overwrite-able variables)
 
-_apache2_service:
-  RedHat: &_apache2_service_redhat httpd
-  Debian: &_apache2_service_debian apache2
+_apache_service:
+  RedHat: &_apache_service_redhat httpd
+  Debian: &_apache_service_debian apache2
   Suse: apache2
-  Solaris: *_apache2_service_debian
-  Amazon_NA: *_apache2_service_redhat
+  Solaris: *_apache_service_debian
+  Amazon_NA: *_apache_service_redhat
 
-_apache2_daemon:
-  RedHat: &_apache2_daemon_redhat httpd
+_apache_daemon:
+  RedHat: &_apache_daemon_redhat httpd
   Debian: apache2
   Suse: httpd2
-  Solaris: *_apache2_daemon_redhat
-  Amazon_NA: *_apache2_daemon_redhat
+  Solaris: *_apache_daemon_redhat
+  Amazon_NA: *_apache_daemon_redhat
 
-_apache2_daemon_path:
-  RedHat: &_apache2_daemon_path_redhat /usr/sbin/
-  Debian: *_apache2_daemon_path_redhat
-  Suse: *_apache2_daemon_path_redhat
+_apache_daemon_path:
+  RedHat: &_apache_daemon_path_redhat /usr/sbin/
+  Debian: *_apache_daemon_path_redhat
+  Suse: *_apache_daemon_path_redhat
   Solaris: /usr/apache2/2.4/bin/
-  Amazon_NA: *_apache2_daemon_path_redhat
+  Amazon_NA: *_apache_daemon_path_redhat
 
-_apache2_server_root:
-  RedHat: &_apache2_server_root_redhat /etc/httpd
+_apache_server_root:
+  RedHat: &_apache_server_root_redhat /etc/httpd
   Debian: /etc/apache2
   Suse: /etc/apache2
   Solaris: /etc/apache2/2.4/
-  Amazon_NA: *_apache2_server_root_redhat
+  Amazon_NA: *_apache_server_root_redhat
 
-_apache2_conf_path:
-  RedHat: &_apache2_conf_path_redhat /etc/httpd/conf.d
+_apache_conf_path:
+  RedHat: &_apache_conf_path_redhat /etc/httpd/conf.d
   Debian: /etc/apache2
   Suse: /etc/apache2/conf.d
   Solaris: /etc/apache2/2.4/conf.d
-  Amazon_NA: *_apache2_conf_path_redhat
+  Amazon_NA: *_apache_conf_path_redhat
 
-_apache2_vhosts_version:
-  RedHat: &_apache2_vhosts_version_redhat "2.2"
+_apache_vhosts_version:
+  RedHat: &_apache_vhosts_version_redhat "2.2"
   Debian: ""
-  Suse: *_apache2_vhosts_version_redhat
-  Solaris: *_apache2_vhosts_version_redhat
+  Suse: *_apache_vhosts_version_redhat
+  Solaris: *_apache_vhosts_version_redhat
   Amazon_NA: "2.4"
 
-_apache2_ports_configuration_items:
-  RedHat: &_apache2_ports_configuration_items_redhat
+_apache_ports_configuration_items:
+  RedHat: &_apache_ports_configuration_items_redhat
     - regexp: "^Listen "
       line: "Listen {{ apache_listen_port }}"
     - regexp: "^#?NameVirtualHost "
       line: "NameVirtualHost {{ apache_listen_ip }}:{{ apache_listen_port }}"
-  Debian: &_apache2_ports_configuration_items_debian
+  Debian: &_apache_ports_configuration_items_debian
     - regexp: "^Listen "
       line: "Listen {{ apache_listen_port }}"
-  Suse: *_apache2_ports_configuration_items_redhat
-  Solaris: *_apache2_ports_configuration_items_redhat
-  Amazon_NA: *_apache2_ports_configuration_items_debian
+  Suse: *_apache_ports_configuration_items_redhat
+  Solaris: *_apache_ports_configuration_items_redhat
+  Amazon_NA: *_apache_ports_configuration_items_debian
 
-apache2_service: "{{
-  _apache2_service[ansible_distribution ~ '_' ~ ansible_distribution_major_version]|default(
-  _apache2_service[ansible_os_family ~ '_' ~ ansible_distribution_major_version])|default(
-  _apache2_service[ansible_distribution])|default(
-  _apache2_service[ansible_os_family])|default(
-  _apache2_service['default']) }}"
+apache_service: "{{
+  _apache_service[ansible_distribution ~ '_' ~ ansible_distribution_major_version]|default(
+  _apache_service[ansible_os_family ~ '_' ~ ansible_distribution_major_version])|default(
+  _apache_service[ansible_distribution])|default(
+  _apache_service[ansible_os_family])|default(
+  _apache_service['default']) }}"
 
-apache2_daemon: "{{
-  _apache2_daemon[ansible_distribution ~ '_' ~ ansible_distribution_major_version]|default(
-  _apache2_daemon[ansible_os_family ~ '_' ~ ansible_distribution_major_version])|default(
-  _apache2_daemon[ansible_distribution])|default(
-  _apache2_daemon[ansible_os_family])|default(
-  _apache2_daemon['default']) }}"
+apache_daemon: "{{
+  _apache_daemon[ansible_distribution ~ '_' ~ ansible_distribution_major_version]|default(
+  _apache_daemon[ansible_os_family ~ '_' ~ ansible_distribution_major_version])|default(
+  _apache_daemon[ansible_distribution])|default(
+  _apache_daemon[ansible_os_family])|default(
+  _apache_daemon['default']) }}"
 
-apache2_daemon_path: "{{
-  _apache2_daemon_path[ansible_distribution ~ '_' ~ ansible_distribution_major_version]|default(
-  _apache2_daemon_path[ansible_os_family ~ '_' ~ ansible_distribution_major_version])|default(
-  _apache2_daemon_path[ansible_distribution])|default(
-  _apache2_daemon_path[ansible_os_family])|default(
-  _apache2_daemon_path['default']) }}"
+apache_daemon_path: "{{
+  _apache_daemon_path[ansible_distribution ~ '_' ~ ansible_distribution_major_version]|default(
+  _apache_daemon_path[ansible_os_family ~ '_' ~ ansible_distribution_major_version])|default(
+  _apache_daemon_path[ansible_distribution])|default(
+  _apache_daemon_path[ansible_os_family])|default(
+  _apache_daemon_path['default']) }}"
 
-apache2_server_root: "{{
-  _apache2_server_root[ansible_distribution ~ '_' ~ ansible_distribution_major_version]|default(
-  _apache2_server_root[ansible_os_family ~ '_' ~ ansible_distribution_major_version])|default(
-  _apache2_server_root[ansible_distribution])|default(
-  _apache2_server_root[ansible_os_family])|default(
-  _apache2_server_root['default']) }}"
+apache_server_root: "{{
+  _apache_server_root[ansible_distribution ~ '_' ~ ansible_distribution_major_version]|default(
+  _apache_server_root[ansible_os_family ~ '_' ~ ansible_distribution_major_version])|default(
+  _apache_server_root[ansible_distribution])|default(
+  _apache_server_root[ansible_os_family])|default(
+  _apache_server_root['default']) }}"
 
-apache2_conf_path: "{{
-  _apache2_conf_path[ansible_distribution ~ '_' ~ ansible_distribution_major_version]|default(
-  _apache2_conf_path[ansible_os_family ~ '_' ~ ansible_distribution_major_version])|default(
-  _apache2_conf_path[ansible_distribution])|default(
-  _apache2_conf_path[ansible_os_family])|default(
-  _apache2_conf_path['default']) }}"
+apache_conf_path: "{{
+  _apache_conf_path[ansible_distribution ~ '_' ~ ansible_distribution_major_version]|default(
+  _apache_conf_path[ansible_os_family ~ '_' ~ ansible_distribution_major_version])|default(
+  _apache_conf_path[ansible_distribution])|default(
+  _apache_conf_path[ansible_os_family])|default(
+  _apache_conf_path['default']) }}"
 
-apache2_vhosts_version: "{{
-  _apache2_vhosts_version[ansible_distribution ~ '_' ~ ansible_distribution_major_version]|default(
-  _apache2_vhosts_version[ansible_os_family ~ '_' ~ ansible_distribution_major_version])|default(
-  _apache2_vhosts_version[ansible_distribution])|default(
-  _apache2_vhosts_version[ansible_os_family])|default(
-  _apache2_vhosts_version['default']) }}"
+apache_vhosts_version: "{{
+  _apache_vhosts_version[ansible_distribution ~ '_' ~ ansible_distribution_major_version]|default(
+  _apache_vhosts_version[ansible_os_family ~ '_' ~ ansible_distribution_major_version])|default(
+  _apache_vhosts_version[ansible_distribution])|default(
+  _apache_vhosts_version[ansible_os_family])|default(
+  _apache_vhosts_version['default']) }}"
 
-apache2_ports_configuration_items: "{{
-  _apache2_ports_configuration_items[ansible_distribution ~ '_' ~ ansible_distribution_major_version]|default(
-  _apache2_ports_configuration_items[ansible_os_family ~ '_' ~ ansible_distribution_major_version])|default(
-  _apache2_ports_configuration_items[ansible_distribution])|default(
-  _apache2_ports_configuration_items[ansible_os_family])|default(
-  _apache2_ports_configuration_items['default']) }}"
+apache_ports_configuration_items: "{{
+  _apache_ports_configuration_items[ansible_distribution ~ '_' ~ ansible_distribution_major_version]|default(
+  _apache_ports_configuration_items[ansible_os_family ~ '_' ~ ansible_distribution_major_version])|default(
+  _apache_ports_configuration_items[ansible_distribution])|default(
+  _apache_ports_configuration_items[ansible_os_family])|default(
+  _apache_ports_configuration_items['default']) }}"
