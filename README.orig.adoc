@@ -53,14 +53,12 @@ or by also using `geerlingguy.apache-php-fpm` to connect Apache to PHP via FPM.
 Please consult the README's of the linked roles for more specific information.
 
 When targeting Solaris-based systems,
-the `community.general`-collection (containing the `pkg5` module) must be installed on the Ansible controller.
+the https://galaxy.ansible.com/community/general[`community.general` collection] 
+(containing the `pkg5` module) must be installed on the Ansible controller.
 
 When targeting Suse-based systems,
-`community.general`-collection (containing the `zypper` module) must be installed on the Ansible controller.
-
-
-The https://galaxy.ansible.com/community/general[`community.general` collection]
-must be installed on the Ansible controller.
+https://galaxy.ansible.com/community/general[`community.general` collection] 
+(containing the `zypper` module) must be installed on the Ansible controller.
 
 
 [[variables]]
