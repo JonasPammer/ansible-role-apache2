@@ -1,5 +1,5 @@
 ---
 - name: Install Apache (Suse).
-  zypper:
+  community.general.zypper:
     name: "{{ apache_packages }}"
     state: "{{ apache_packages_state }}"

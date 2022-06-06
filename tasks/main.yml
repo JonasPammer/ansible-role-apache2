@@ -8,33 +8,33 @@
 
 ### Setup/Install tasks ###
 - name: include OS-specific installation and setup tasks
-  include_tasks: "setup-{{ ansible_os_family }}.yml"
+  ansible.builtin.include_tasks: "setup-{{ ansible_os_family }}.yml"
 
 ### Configure tasks ###
 ## Figure out what version of Apache is installed ##
 - name: get installed version of Apache
-  command: "{{ apache_daemon_path }}{{ apache_daemon }} -v"
+  ansible.builtin.command: "{{ apache_daemon_path }}{{ apache_daemon }} -v"
   changed_when: false
   check_mode: false
   register: _apache_version
 
 - name: create apache_version variable
-  set_fact:
+  ansible.builtin.set_fact:
     apache_version: "{{ _apache_version.stdout.split()[2].split('/')[1] }}"
 
 - name: include Apache 2.2 variables
-  include_vars: apache-22.yml
+  ansible.builtin.include_vars: apache-22.yml
   when: "apache_version.split('.')[1] == '2'"
 
 - name: include Apache 2.4 variables
-  include_vars: apache-24.yml
+  ansible.builtin.include_vars: apache-24.yml
   when: "apache_version.split('.')[1] == '4'"
 
 - name: include OS-specific configuration tasks
-  include_tasks: "configure-{{ ansible_os_family }}.yml"
+  ansible.builtin.include_tasks: "configure-{{ ansible_os_family }}.yml"
 
 - name: Ensure Apache has selected state and enabled on boot.
-  service:
+  ansible.builtin.service:
     name: "{{ apache_service }}"
     state: "{{ apache_state }}"
     enabled: "{{ apache_enabled }}"
