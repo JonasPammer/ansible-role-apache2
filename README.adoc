@@ -64,9 +64,22 @@ dependencies: []
 // Any prerequisites that may not be covered by this role or Ansible itself should be mentioned here.
 The Ansible User needs to be able to `become`.
 
+If you are using SSL/TLS (<<apache_ssl_vhosts>>), you will need to provide your own certificate and key files.
 
-The https://galaxy.ansible.com/community/general[`community.general` collection]
-must be installed on the Ansible controller.
+If you are using Apache with PHP, I recommend using the
+https://github.com/geerlingguy/ansible-role-php/[geerlingguy.php] role
+to install PHP, and you can either use `mod_php`
+(by adding the proper package, e.g. `libapache2-mod-php5` for Ubuntu, to `php_packages`),
+or by also using `geerlingguy.apache-php-fpm` to connect Apache to PHP via FPM.
+Please consult the README's of the linked roles for more specific information.
+
+When targeting Solaris-based systems,
+the https://galaxy.ansible.com/community/general[`community.general` collection]
+(containing the `pkg5` module) must be installed on the Ansible controller.
+
+When targeting Suse-based systems,
+https://galaxy.ansible.com/community/general[`community.general` collection]
+(containing the `zypper` module) must be installed on the Ansible controller.
 
 
 [[variables]]
