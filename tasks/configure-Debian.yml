@@ -1,6 +1,6 @@
 ---
 - name: Configure Apache's ports configuration.
-  lineinfile:
+  ansible.builtin.lineinfile:
     dest: "{{ apache_server_root }}/ports.conf"
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"
@@ -10,7 +10,7 @@
   notify: restart apache
 
 - name: Enable configured Apache mods (Debian).
-  file:
+  ansible.builtin.file:
     src: "{{ apache_server_root }}/mods-available/{{ item }}.load"
     dest: "{{ apache_server_root }}/mods-enabled/{{ item }}.load"
     state: link
@@ -19,19 +19,19 @@
   notify: restart apache
 
 - name: Disable configured Apache mods (Debian).
-  file:
+  ansible.builtin.file:
     path: "{{ apache_server_root }}/mods-enabled/{{ item }}.load"
     state: absent
   with_items: "{{ apache_mods_disabled }}"
   notify: restart apache
 
 - name: check whether certificates defined in vhosts exist
-  stat: "path={{ item.certificate_file }}"
+  ansible.builtin.stat: "path={{ item.certificate_file }}"
   register: apache_ssl_certificates
   with_items: "{{ apache_vhosts_ssl }}"
 
 - name: Generate configured Apache VirtualHost file in Debians 'site-available' directory and ensure correct owner/group/mode.
-  template:
+  ansible.builtin.template:
     src: "{{ apache_vhosts_template }}"
     dest: "{{ apache_conf_path }}/sites-available/{{ apache_vhosts_filename }}"
     owner: root
@@ -41,7 +41,7 @@
   when: apache_create_vhosts | bool
 
 - name: Add symlink to generated VirtualHost file in Debians 'sites-enabled' directory and ensure correct mode.
-  file:
+  ansible.builtin.file:
     src: "{{ apache_conf_path }}/sites-available/{{ apache_vhosts_filename }}"
     dest: "{{ apache_conf_path }}/sites-enabled/{{ apache_vhosts_filename }}"
     state: link
@@ -50,7 +50,7 @@
   when: apache_create_vhosts | bool
 
 - name: Remove default vhost from Debians 'sites-enabled' directory (when configured).
-  file:
+  ansible.builtin.file:
     path: "{{ apache_conf_path }}/sites-enabled/{{ apache_default_vhost_filename }}"
     state: absent
   notify: restart apache

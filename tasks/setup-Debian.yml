@@ -1,8 +1,8 @@
 ---
 - name: Update apt cache.
-  apt: update_cache=yes cache_valid_time=3600
+  ansible.builtin.apt: update_cache=yes cache_valid_time=3600
 
 - name: Install Apache (Debian).
-  apt:
+  ansible.builtin.apt:
     name: "{{ apache_packages }}"
     state: "{{ apache_packages_state }}"
