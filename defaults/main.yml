@@ -2,6 +2,35 @@
 # defaults file of ansible-role jonaspammer.apache2
 # See README.adoc for documentation. If you change a default here, also update it in the README.
 
+_apache_packages:
+  Debian:
+    - apache2
+    - apache2-utils
+  RedHat:
+    - httpd
+    - httpd-devel
+    - mod_ssl
+    - openssh
+  Suse:
+    - apache2
+    - openssh
+  Solaris:
+    - web/server/apache-24
+    - web/server/apache-24/module/apache-ssl
+    - web/server/apache-24/module/apache-security
+  Amazon_NA:
+    - httpd24
+    - httpd24-devel
+    - mod24_ssl
+    - openssh
+
+apache_packages: "{{
+  _apache_packages[ansible_distribution ~ '_' ~ ansible_distribution_major_version]|default(
+  _apache_packages[ansible_os_family ~ '_' ~ ansible_distribution_major_version])|default(
+  _apache_packages[ansible_distribution])|default(
+  _apache_packages[ansible_os_family])|default(
+  _apache_packages['default']) }}"
+
 apache_enablerepo: ""
 
 apache_listen_ip: "*"
