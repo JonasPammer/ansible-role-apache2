@@ -16,26 +16,26 @@ _apache__daemon:
   Solaris: *_apache__daemon_redhat
   Amazon_NA: *_apache__daemon_redhat
 
-_apache__daemon_path:
-  RedHat: &_apache__daemon_path_redhat /usr/sbin/
-  Debian: *_apache__daemon_path_redhat
-  Suse: *_apache__daemon_path_redhat
-  Solaris: /usr/apache2/2.4/bin/
-  Amazon_NA: *_apache__daemon_path_redhat
+_apache__daemon_dir:
+  RedHat: &_apache__daemon_dir_redhat /usr/sbin
+  Debian: *_apache__daemon_dir_redhat
+  Suse: *_apache__daemon_dir_redhat
+  Solaris: /usr/apache2/2.4/bin
+  Amazon_NA: *_apache__daemon_dir_redhat
 
-_apache__server_root:
-  RedHat: &_apache__server_root_redhat /etc/httpd
+_apache__server_root_dir:
+  RedHat: &_apache__server_root_dir_redhat /etc/httpd
   Debian: /etc/apache2
   Suse: /etc/apache2
-  Solaris: /etc/apache2/2.4/
-  Amazon_NA: *_apache__server_root_redhat
+  Solaris: /etc/apache2/2.4
+  Amazon_NA: *_apache__server_root_dir_redhat
 
-_apache__conf_path:
-  RedHat: &_apache__conf_path_redhat /etc/httpd/conf.d
+_apache__server_conf_dir:
+  RedHat: &_apache__server_conf_dir_redhat /etc/httpd/conf.d
   Debian: /etc/apache2
   Suse: /etc/apache2/conf.d
   Solaris: /etc/apache2/2.4/conf.d
-  Amazon_NA: *_apache__conf_path_redhat
+  Amazon_NA: *_apache__server_conf_dir_redhat
 
 _apache__vhosts_version:
   RedHat: &_apache__vhosts_version_redhat "2.2"
@@ -71,26 +71,26 @@ apache__daemon: "{{
   _apache__daemon[ansible_os_family])|default(
   _apache__daemon['default']) }}"
 
-apache__daemon_path: "{{
-  _apache__daemon_path[ansible_distribution ~ '_' ~ ansible_distribution_major_version]|default(
-  _apache__daemon_path[ansible_os_family ~ '_' ~ ansible_distribution_major_version])|default(
-  _apache__daemon_path[ansible_distribution])|default(
-  _apache__daemon_path[ansible_os_family])|default(
-  _apache__daemon_path['default']) }}"
+apache__daemon_dir: "{{
+  _apache__daemon_dir[ansible_distribution ~ '_' ~ ansible_distribution_major_version]|default(
+  _apache__daemon_dir[ansible_os_family ~ '_' ~ ansible_distribution_major_version])|default(
+  _apache__daemon_dir[ansible_distribution])|default(
+  _apache__daemon_dir[ansible_os_family])|default(
+  _apache__daemon_dir['default']) }}"
 
-apache__server_root: "{{
-  _apache__server_root[ansible_distribution ~ '_' ~ ansible_distribution_major_version]|default(
-  _apache__server_root[ansible_os_family ~ '_' ~ ansible_distribution_major_version])|default(
-  _apache__server_root[ansible_distribution])|default(
-  _apache__server_root[ansible_os_family])|default(
-  _apache__server_root['default']) }}"
+apache__server_root_dir: "{{
+  _apache__server_root_dir[ansible_distribution ~ '_' ~ ansible_distribution_major_version]|default(
+  _apache__server_root_dir[ansible_os_family ~ '_' ~ ansible_distribution_major_version])|default(
+  _apache__server_root_dir[ansible_distribution])|default(
+  _apache__server_root_dir[ansible_os_family])|default(
+  _apache__server_root_dir['default']) }}"
 
-apache__conf_path: "{{
-  _apache__conf_path[ansible_distribution ~ '_' ~ ansible_distribution_major_version]|default(
-  _apache__conf_path[ansible_os_family ~ '_' ~ ansible_distribution_major_version])|default(
-  _apache__conf_path[ansible_distribution])|default(
-  _apache__conf_path[ansible_os_family])|default(
-  _apache__conf_path['default']) }}"
+apache__server_conf_dir: "{{
+  _apache__server_conf_dir[ansible_distribution ~ '_' ~ ansible_distribution_major_version]|default(
+  _apache__server_conf_dir[ansible_os_family ~ '_' ~ ansible_distribution_major_version])|default(
+  _apache__server_conf_dir[ansible_distribution])|default(
+  _apache__server_conf_dir[ansible_os_family])|default(
+  _apache__server_conf_dir['default']) }}"
 
 apache__vhosts_version: "{{
   _apache__vhosts_version[ansible_distribution ~ '_' ~ ansible_distribution_major_version]|default(
