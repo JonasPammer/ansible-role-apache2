@@ -13,7 +13,7 @@
 ### Configure tasks ###
 ## Figure out what version of Apache is installed ##
 - name: get installed version of Apache
-  ansible.builtin.command: "{{ apache__daemon_path }}{{ apache__daemon }} -v"
+  ansible.builtin.command: "{{ apache__daemon_dir }}/{{ apache__daemon }} -v"
   changed_when: false
   check_mode: false
   register: _apache_version

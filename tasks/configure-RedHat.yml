@@ -1,7 +1,7 @@
 ---
 - name: Configure Apache's ports configuration.
   ansible.builtin.lineinfile:
-    dest: "{{ apache__server_root }}/conf/{{ apache__daemon }}.conf"
+    dest: "{{ apache__server_root_dir }}/conf/{{ apache__daemon }}.conf"
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"
     state: present
@@ -16,7 +16,7 @@
 
 - name: Enable configured Apache mods (Debian).
   ansible.builtin.copy:
-    dest: "{{ apache__server_root }}/conf.modules.d/99-ansible-{{ item }}.conf"
+    dest: "{{ apache__server_root_dir }}/conf.modules.d/99-ansible-{{ item }}.conf"
     content: |
       LoadModule {{ item }}_module modules/mod_{{ item }}.so
     mode: 0644
@@ -25,7 +25,7 @@
 
 - name: Disable configured Apache mods (Debian).
   ansible.builtin.file:
-    path: "{{ apache__server_root }}/conf.modules.d/99-ansible-{{ item }}.conf"
+    path: "{{ apache__server_root_dir }}/conf.modules.d/99-ansible-{{ item }}.conf"
     state: absent
   with_items: "{{ apache_mods_disabled }}"
   notify: restart apache
@@ -33,7 +33,7 @@
 - name: Generate configured Apache VirtualHost file and ensure correct owner/group/mode.
   ansible.builtin.template:
     src: "{{ apache_vhosts_template }}"
-    dest: "{{ apache__conf_path }}/{{ apache_vhosts_filename }}"
+    dest: "{{ apache__server_conf_dir }}/{{ apache_vhosts_filename }}"
     owner: root
     group: root
     mode: 0644

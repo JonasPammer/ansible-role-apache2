@@ -1,7 +1,7 @@
 ---
 - name: Configure Apache's ports configuration.
   ansible.builtin.lineinfile:
-    dest: "{{ apache__server_root }}/{{ apache__daemon }}.conf"
+    dest: "{{ apache__server_root_dir }}/{{ apache__daemon }}.conf"
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"
     state: present
@@ -12,7 +12,7 @@
 - name: Generate configured Apache VirtualHost file and ensure correct owner/group/mode.
   ansible.builtin.template:
     src: "{{ apache_vhosts_template }}"
-    dest: "{{ apache__conf_path }}/{{ apache_vhosts_filename }}"
+    dest: "{{ apache__server_conf_dir }}/{{ apache_vhosts_filename }}"
     owner: root
     group: root
     mode: 0644
