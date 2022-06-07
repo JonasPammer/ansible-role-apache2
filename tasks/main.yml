@@ -30,6 +30,16 @@
   ansible.builtin.include_vars: apache-24.yml
   when: "apache_version.split('.')[1] == '4'"
 
+- name: Configure Apache's ports configuration.
+  ansible.builtin.lineinfile:
+    dest: "{{ _apache__ports_configuration_file }}"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    state: present
+    mode: 0644
+  with_items: "{{ apache__ports_configuration_items }}"
+  notify: restart apache
+
 - name: include OS-specific configuration tasks
   ansible.builtin.include_tasks: "configure-{{ ansible_os_family }}.yml"
 
