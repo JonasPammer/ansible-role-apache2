@@ -1,5 +1,4 @@
 ---
-
 - name: Generate configured Apache VirtualHost file and ensure correct owner/group/mode.
   ansible.builtin.template:
     src: "{{ apache_vhosts_template }}"
