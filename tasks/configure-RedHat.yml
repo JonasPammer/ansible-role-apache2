@@ -1,13 +1,4 @@
 ---
-- name: Configure Apache's ports configuration.
-  ansible.builtin.lineinfile:
-    dest: "{{ apache__ports_configuration_file }}"
-    regexp: "{{ item.regexp }}"
-    line: "{{ item.line }}"
-    state: present
-    mode: 0644
-  with_items: "{{ apache__ports_configuration_items }}"
-  notify: restart apache
 
 - name: check whether certificates defined in vhosts exist
   ansible.builtin.stat: path={{ item.certificate_file }}

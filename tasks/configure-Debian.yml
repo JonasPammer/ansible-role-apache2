@@ -1,14 +1,4 @@
 ---
-- name: Configure Apache's ports configuration.
-  ansible.builtin.lineinfile:
-    dest: "{{ _apache__ports_configuration_file }}"
-    regexp: "{{ item.regexp }}"
-    line: "{{ item.line }}"
-    state: present
-    mode: 0644
-  with_items: "{{ apache__ports_configuration_items }}"
-  notify: restart apache
-
 - name: Enable configured Apache mods (Debian).
   ansible.builtin.file:
     src: "{{ apache__server_root_dir }}/mods-available/{{ item }}.load"
