@@ -48,7 +48,6 @@ apache_mods_enabled:
   - ssl
 apache_mods_disabled: []
 
-
 ### VirtualHost Variables ###
 apache_create_vhosts: true
 apache_vhosts_filename: "vhosts.conf"
