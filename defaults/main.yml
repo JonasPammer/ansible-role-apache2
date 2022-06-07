@@ -31,12 +31,25 @@ apache_packages: "{{
   _apache_packages[ansible_os_family])|default(
   _apache_packages['default']) }}"
 
+apache_packages_state: present
+
 apache_enablerepo: ""
 
 apache_listen_ip: "*"
 apache_listen_port: 80
 apache_listen_port_ssl: 443
 
+apache_state: started
+apache_enabled: true
+apache_restart_state: restarted
+
+apache_mods_enabled:
+  - rewrite
+  - ssl
+apache_mods_disabled: []
+
+
+### VirtualHost Variables ###
 apache_create_vhosts: true
 apache_vhosts_filename: "vhosts.conf"
 apache_vhosts_template: "vhosts.conf.j2"
@@ -59,16 +72,3 @@ apache_ignore_missing_ssl_certificate: true
 
 apache_ssl_protocol: "All -SSLv2 -SSLv3"
 apache_ssl_cipher_suite: "AES256+EECDH:AES256+EDH"
-
-apache_mods_enabled:
-  - rewrite
-  - ssl
-apache_mods_disabled: []
-
-apache_state: started
-
-apache_enabled: true
-
-apache_restart_state: restarted
-
-apache_packages_state: present
