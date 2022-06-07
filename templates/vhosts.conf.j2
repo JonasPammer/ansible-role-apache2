@@ -18,7 +18,7 @@
   <Directory "{{ vhost.documentroot }}">
     AllowOverride {{ vhost.allow_override | default(apache_allow_override) }}
     Options {{ vhost.options | default(apache_options) }}
-{% if apache_vhosts_version == "2.2" %}
+{% if apache__vhosts_version == "2.2" %}
     Order allow,deny
     Allow from all
 {% else %}
@@ -49,7 +49,7 @@
   SSLCipherSuite {{ apache_ssl_cipher_suite }}
   SSLProtocol {{ apache_ssl_protocol }}
   SSLHonorCipherOrder On
-{% if apache_vhosts_version == "2.4" %}
+{% if apache__vhosts_version == "2.4" %}
   SSLCompression off
 {% endif %}
   SSLCertificateFile {{ vhost.certificate_file }}
@@ -65,7 +65,7 @@
   <Directory "{{ vhost.documentroot }}">
     AllowOverride {{ vhost.allow_override | default(apache_allow_override) }}
     Options {{ vhost.options | default(apache_options) }}
-{% if apache_vhosts_version == "2.2" %}
+{% if apache__vhosts_version == "2.2" %}
     Order allow,deny
     Allow from all
 {% else %}
