@@ -16,8 +16,8 @@
 {% endif %}
 {% if vhost.documentroot is defined %}
   <Directory "{{ vhost.documentroot }}">
-    AllowOverride {{ vhost.allow_override | default(apache_allow_override) }}
-    Options {{ vhost.options | default(apache_options) }}
+    AllowOverride {{ vhost.documentroot__allowoverride | default(apache_vhosts_default_documentroot__allowoverride) }}
+    Options {{ vhost.documentroot__options | default(apache_vhosts_default_documentroot__options) }}
 {% if apache__vhosts_version == "2.2" %}
     Order allow,deny
     Allow from all
@@ -63,8 +63,8 @@
 {% endif %}
 {% if vhost.documentroot is defined %}
   <Directory "{{ vhost.documentroot }}">
-    AllowOverride {{ vhost.allow_override | default(apache_allow_override) }}
-    Options {{ vhost.options | default(apache_options) }}
+    AllowOverride {{ vhost.documentroot__allowoverride | default(apache_vhosts_default_documentroot__allowoverride) }}
+    Options {{ vhost.documentroot__options | default(apache_vhosts_default_documentroot__options) }}
 {% if apache__vhosts_version == "2.2" %}
     Order allow,deny
     Allow from all
