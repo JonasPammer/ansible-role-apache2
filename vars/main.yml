@@ -68,7 +68,6 @@ _apache__ports_configuration_items:
   Solaris: *_apache__ports_configuration_items_redhat
   Amazon_NA: *_apache__ports_configuration_items_debian
 
-
 apache__service: "{{
   _apache__service[ansible_distribution ~ '_' ~ ansible_distribution_major_version]|default(
   _apache__service[ansible_os_family ~ '_' ~ ansible_distribution_major_version])|default(
