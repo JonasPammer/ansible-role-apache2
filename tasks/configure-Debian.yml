@@ -1,7 +1,7 @@
 ---
 - name: Configure Apache's ports configuration.
   ansible.builtin.lineinfile:
-    dest: "{{ apache__server_root_dir }}/ports.conf"
+    dest: "{{ _apache__ports_configuration_file }}"
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"
     state: present
