@@ -50,8 +50,8 @@ apache_vhosts:
   - servername: "local.dev"
     documentroot: "/var/www/html"
 
-apache_allow_override: "All"
-apache_options: "-Indexes +FollowSymLinks"
+apache_vhosts_default_documentroot__allowoverride: "All"
+apache_vhosts_default_documentroot__options: "-Indexes +FollowSymLinks"
 
 apache_vhosts_ssl: []
 
