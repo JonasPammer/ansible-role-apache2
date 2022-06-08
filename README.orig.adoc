@@ -264,7 +264,7 @@ Gets enquoted in `"`.
 
 `extra`::
 Additional String to append after `path`.
-Does not get quoted 
+Does not get quoted
 (to allow for the complex additional optional parameters of CustomLog one may want to supply).
 
 
