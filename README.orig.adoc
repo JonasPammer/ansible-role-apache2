@@ -86,7 +86,7 @@ apache_listen_port: 80
 apache_listen_port_ssl: 443
 ----
 The IP address and ports on which apache should be listening.
-Useful if you have another service (like a reverse proxy) listening 
+Useful if you have another service (like a reverse proxy) listening
 on port 80 or 443 and need to change the defaults.
 
 [source,yaml]
@@ -100,14 +100,14 @@ Set this to `true` to remove that default.
 ----
 apache_state: started
 ----
-Set initial apache state. 
+Set initial apache state.
 Recommended values: `started` or `stopped`
 
 [source,yaml]
 ----
 apache_enabled: true
 ----
-Set initial apache service status. 
+Set initial apache service status.
 Recommended values: `true` or `false`
 
 [source,yaml]
@@ -161,11 +161,11 @@ apache_create_vhosts: true
 apache_vhosts_filename: "vhosts.conf"
 apache_vhosts_template: "vhosts.conf.j2"
 ----
-If set to `true`, a vhosts file managed by the variables of this role (see below), 
-is created and placed in the Apache configuration folder. 
+If set to `true`, a vhosts file managed by the variables of this role (see below),
+is created and placed in the Apache configuration folder.
 If set to `false`, you can place your own vhosts file into Apache's configuration folder and skip the convenient (but more basic) one added by this role.
 
-You can also override the template used and set a path to your own template, 
+You can also override the template used and set a path to your own template,
 if you need to further customize the layout of your VirtualHost.
 
 [source,yaml]
@@ -290,7 +290,7 @@ These variable are used as default for every `apache_vhosts_ssl`.
 They are named the same way as used in said Role variables
 (except for their prefix of course).
 Consult https://httpd.apache.org/docs/current/mod/mod_ssl.html[
-Apache's Documentation] 
+Apache's Documentation]
 for the documentation of the actual Apache Directives they represent.
 
 
