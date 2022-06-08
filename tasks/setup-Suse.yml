@@ -3,3 +3,8 @@
   community.general.zypper:
     name: "{{ apache_packages }}"
     state: "{{ apache_packages_state }}"
+  register: apache__register_zypper__install
+
+- name: set apache installed fact
+  ansible.builtin.set_fact:
+    apache__fact_install_changed: "{{ apache__register_zypper__install.changed }}"
