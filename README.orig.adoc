@@ -209,21 +209,74 @@ Each entry of a list may have the following properties
 Consult the linked official documentation pages for the documentation
 of the actual Apache Directives they represent).
 
-`https://httpd.apache.org/docs/2.4/mod/core.html#servername[servername]`::
+`https://httpd.apache.org/docs/2.4/mod/core.html#servername[servername]` (required)::
 
-`https://httpd.apache.org/docs/2.4/mod/core.html#serveralias[serveralias]` (optional)::
+`https://httpd.apache.org/docs/2.4/mod/core.html#serveralias[serveralias]`::
 
-`https://httpd.apache.org/docs/2.4/mod/core.html#serveradmin[serveradmin]` (optional)::
+`https://httpd.apache.org/docs/2.4/mod/core.html#serveradmin[serveradmin]`::
 
-`https://httpd.apache.org/docs/2.4/mod/core.html#documentroot[documentroot]` (optional)::
+`https://httpd.apache.org/docs/2.4/mod/core.html#documentroot[documentroot]`::
 
-`documentroot__link:https://httpd.apache.org/docs/2.4/mod/core.html#servername[allowoverride]` (optional)::
+`documentroot__link:https://httpd.apache.org/docs/2.4/mod/core.html#servername[allowoverride]`::
 `AllowOverride`-Directive used inside the `<Directory>` of the `DocumentRoot`. +
 Defaults to the value of `apache_vhosts_default_documentroot__allowoverride`.
 
-`documentroot__link:https://httpd.apache.org/docs/2.4/mod/core.html#options[options]` (optional)::
-`Options`-Directive used inside the `<Directory>` of the `DocumentRoot`.
+`documentroot__link:https://httpd.apache.org/docs/2.4/mod/core.html#options[options]`::
+`Options`-Directive used inside the `<Directory>` of the `DocumentRoot`. +
 Defaults to the value of `apache_vhosts_default_documentroot__options`.
+
+https://httpd.apache.org/docs/2.4/mod/mod_log_config.html#logformat[`logformat`]::
+
+`https://httpd.apache.org/docs/2.4/mod/core.html#loglevel[loglevel]`::
+
+[[apache_vhosts__errorlog]]
+`https://httpd.apache.org/docs/2.4/mod/core.html#errorlog[errorlog]`::
+Either a string  (representing the path. does not get automatically quoted)
+or a complex data type:
++
+====
+`path`::
+Path.
+Gets enquoted in `"`.
+
+`extra`::
+Additional String to append after `path`.
+
+`extra_parameters`::
+This variable gets inserted as-is *before* the actual `ErrorLog` statement
+(with an indent of 2).
++
+The use case for this parameter may be to enable Conditional Logs using
+`SetEnvIf` / `SetEnv` or setting a custom `LogFormat` for this ErrorLog
+https://httpd.apache.org/docs/2.4/logs.html[Apache's core Documentation].
+====
+
+[[apache_vhosts__customlogs]]
+`https://httpd.apache.org/docs/2.4/mod/mod_log_config.html#customlog[customlogs]`::
+Array of CustomLogs.
+Each Entry may either be a string (does not get automatically quoted)
+or a complex data type:
++
+====
+`path`::
+Path.
+Gets enquoted in `"`.
+
+`extra`::
+Additional String to append after `path`.
+Does not get quoted 
+(to allow for the complex additional optional parameters of CustomLog one may want to supply).
+
+
+`extra_parameters`::
+This variable gets inserted as-is *before* the actual `CustomLog` statement
+(with an indent of 2).
++
+The use case for this parameter may be to enable Conditional Logs using
+`SetEnvIf` / `SetEnv` or setting a custom `LogFormat` for this specifc CustomLog
+as per https://httpd.apache.org/docs/2.4/logs.html[Apache's mod_log_config Documentation].
+====
+
 
 `extra_parameters`::
 This variable gets inserted as-is into the very end of the looped `<VirtualHost>` (with an indent of 2).
@@ -245,19 +298,19 @@ Each entry of a list may have the following properties
 (Consult the linked official documentation pages for the documentation
 of the actual Apache Directives they represent).
 
-`https://httpd.apache.org/docs/2.4/mod/core.html#servername[servername]`::
+`https://httpd.apache.org/docs/2.4/mod/core.html#servername[servername]` (required)::
 
-`https://httpd.apache.org/docs/2.4/mod/core.html#serveralias[serveralias]` (optional)::
+`https://httpd.apache.org/docs/2.4/mod/core.html#serveralias[serveralias]`::
 
-`https://httpd.apache.org/docs/2.4/mod/core.html#serveradmin[serveradmin]` (optional)::
+`https://httpd.apache.org/docs/2.4/mod/core.html#serveradmin[serveradmin]`::
 
-`https://httpd.apache.org/docs/2.4/mod/core.html#documentroot[documentroot]` (optional)::
+`https://httpd.apache.org/docs/2.4/mod/core.html#documentroot[documentroot]`::
 
-`documentroot__link:https://httpd.apache.org/docs/2.4/mod/core.html#servername[allowoverride]` (optional)::
+`documentroot__link:https://httpd.apache.org/docs/2.4/mod/core.html#servername[allowoverride]`::
 `AllowOverride`-Directive used inside the `<Directory>` of the `DocumentRoot`. +
 Defaults to `apache_vhosts_default_documentroot__allowoverride`.
 
-`documentroot__link:https://httpd.apache.org/docs/2.4/mod/core.html#options[options]` (optional)::
+`documentroot__link:https://httpd.apache.org/docs/2.4/mod/core.html#options[options]`::
 `Options`-Directive used inside the `<Directory>` of the `DocumentRoot`.
 Defaults to `apache_vhosts_default_documentroot__options`.
 
@@ -265,12 +318,26 @@ Defaults to `apache_vhosts_default_documentroot__options`.
 If set to True, the `<VirtualHost>` will have no SSL* Options.
 Used only when you want a http-to-https redirect you defined in `extra_parameters`.
 
-https://httpd.apache.org/docs/current/mod/mod_ssl.html#sslcertificatefile[ssl_certificate_file]::
-https://httpd.apache.org/docs/current/mod/mod_ssl.html#sslcertificatekeyfile[ssl_certificate_key_file]::
-https://httpd.apache.org/docs/current/mod/mod_ssl.html#sslcertificatechainfile[ssl_certificate_chain_file] (optional)::
+https://httpd.apache.org/docs/current/mod/mod_ssl.html#sslcertificatefile[ssl_certificate_file] (required)::
+https://httpd.apache.org/docs/current/mod/mod_ssl.html#sslcertificatekeyfile[ssl_certificate_key_file] (required)::
+https://httpd.apache.org/docs/current/mod/mod_ssl.html#sslcertificatechainfile[ssl_certificate_chain_file]::
 _Please note that this Deprecated._
 
-`extra_parameters` (optional)::
+
+https://httpd.apache.org/docs/2.4/mod/mod_log_config.html#logformat[`logformat`]::
+
+`https://httpd.apache.org/docs/2.4/mod/core.html#loglevel[loglevel]`::
+
+[[apache_vhosts__errorlog]]
+`https://httpd.apache.org/docs/2.4/mod/core.html#errorlog[errorlog]`::
+Equivalent of <<apache_vhosts__errorlogs,apache_vhosts.errorlogs>>.
+
+`https://httpd.apache.org/docs/2.4/mod/mod_log_config.html#customlog[customlogs]`::
+Array of CustomLogs.
+Equivalent of <<apache_vhosts__customlogs,apache_vhosts.customlogs>>.
+
+
+`extra_parameters`::
 This variable gets inserted as-is into the very end of the looped `<VirtualHost>` (with an indent of 2).
 
 
