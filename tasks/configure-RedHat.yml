@@ -33,11 +33,11 @@
 - name: check if localhost cert exists (RHEL 8 and later)
   ansible.builtin.stat:
     path: /etc/pki/tls/certs/localhost.crt
-  register: localhost_cert
+  register: apache__register_stat_rhel_localhost_cert
   when: ansible_distribution_major_version | int >= 8
 
 - name: Ensure httpd certs are installed (RHEL 8 and later).
   ansible.builtin.command: /usr/libexec/httpd-ssl-gencerts
   when:
     - ansible_distribution_major_version | int >= 8
-    - not localhost_cert.stat.exists
+    - not apache__register_stat_rhel_localhost_cert.stat.exists
