@@ -44,8 +44,8 @@ _apache__primary_configuration_file:
 
 _apache__ports_configuration_file:
   Debian: "{{ apache__server_root_dir }}/ports.conf"
-  RedHat: "{{ _apache__primary_configuration_file_path['RedHat'] }}"
-  Solaris: "{{ _apache__primary_configuration_file_path['Solaris'] }}"
+  RedHat: "{{ _apache__primary_configuration_file['RedHat'] }}"
+  Solaris: "{{ _apache__primary_configuration_file['Solaris'] }}"
   Suse: "{{ apache__server_root_dir }}/listen.conf"
 
 _apache__vhosts_version:
