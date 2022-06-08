@@ -81,30 +81,32 @@
   DocumentRoot "{{ vhost.documentroot }}"
 {%     endif %}
 
+{%     if not vhost.no_actual_ssl is defined and not vhost.no_actual_ssl %}
   SSLEngine on
   SSLCipherSuite {{ apache_ssl_cipher_suite }}
   SSLProtocol {{ apache_ssl_protocol }}
   SSLHonorCipherOrder On
-{%     if apache__vhosts_version == "2.4" %}
+{%       if apache__vhosts_version == "2.4" %}
   SSLCompression off
-{%     endif %}
+{%       endif %}
   SSLCertificateFile {{ vhost.ssl_certificate_file }}
   SSLCertificateKeyFile {{ vhost.ssl_certificate_key_file }}
-{%     if vhost.certificate_chain_file is defined %}
+{%       if vhost.certificate_chain_file is defined %}
   SSLCertificateChainFile {{ vhost.ssl_certificate_chain_file }}
-{%     endif %}
+{%       endif %}
 
-{%     if vhost.documentroot is defined %}
+{%       if vhost.documentroot is defined %}
   <Directory "{{ vhost.documentroot }}">
     AllowOverride {{ vhost.documentroot__allowoverride | default(apache_vhosts_default_documentroot__allowoverride) }}
     Options {{ vhost.documentroot__options | default(apache_vhosts_default_documentroot__options) }}
-{%       if apache__vhosts_version == "2.2" %}
+{%         if apache__vhosts_version == "2.2" %}
     Order allow,deny
     Allow from all
-{%       else %}
+{%         else %}
     Require all granted
-{%       endif %}
+{%         endif %}
   </Directory>
+{%       endif %}
 {%     endif %}
 
   {{ MACRO_LOGGING(vhost) }}
