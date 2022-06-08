@@ -12,6 +12,12 @@
 
 ### Configure tasks ###
 ## Figure out what version of Apache is installed ##
+- name: Create favicon for apache's default DocumentRoot and ensure correct mode.
+  ansible.builtin.copy:
+    src: "{{ apache_default_favicon }}"
+    dest: /var/www/html/favicon.ico
+    mode: u=rw,g=r,o=r
+
 - name: get installed version of Apache
   ansible.builtin.command: "{{ apache__daemon_dir }}/{{ apache__daemon }} -v"
   changed_when: false

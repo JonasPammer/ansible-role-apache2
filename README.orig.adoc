@@ -118,6 +118,13 @@ Sets the state to put apache in when a configuration change was made
 (i.e., when the handler has been called).
 Recommended values: `restarted` or `reloaded`
 
+[source,yaml]
+----
+apache_default_favicon: favicon.ico
+----
+Path to a file on the local Ansible Controller to be copied to the server
+and used by Apache as a default favicon.
+
 === Role Variables used for installation
 
 [source,yaml]
