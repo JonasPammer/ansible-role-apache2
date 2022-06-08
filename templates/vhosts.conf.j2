@@ -1,7 +1,7 @@
 # {{ ansible_managed }}
 {{ apache_global_vhost_settings }}
 
-{# Set up VirtualHosts #}
+{#- Set up VirtualHosts -#}
 {% for vhost in apache_vhosts %}
 <VirtualHost {{ apache_listen_ip }}:{{ apache_listen_port }}>
   ServerName {{ vhost.servername }}
@@ -31,10 +31,9 @@
 {{ vhost.extra_parameters | indent(width=2, first=True) }}
 {%   endif %}
 </VirtualHost>
-
 {% endfor %}
 
-{# Set up SSL VirtualHosts #}
+{#- Set up SSL VirtualHosts -#}
 {% for vhost in apache_vhosts_ssl %}
 {%   if apache_ignore_missing_ssl_certificate or apache_ssl_certificates.results[loop.index0].stat.exists %}
 <VirtualHost {{ apache_listen_ip }}:{{ apache_listen_port_ssl }}>
@@ -78,6 +77,5 @@
 {{ vhost.extra_parameters | indent(width=2, first=True) }}
 {%     endif %}
 </VirtualHost>
-
 {%   endif %}
 {% endfor %}
