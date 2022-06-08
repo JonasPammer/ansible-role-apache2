@@ -1,7 +1,7 @@
 ---
 - name: check whether certificates defined in vhosts exist
   ansible.builtin.stat: path={{ item.certificate_file }}
-  register: apache_ssl_certificates
+  register: apache__register_looped_stat_of_vhosts_ssl_certificate_files
   with_items: "{{ apache_vhosts_ssl }}"
 
 - name: Generate configured Apache VirtualHost file and ensure correct owner/group/mode.
