@@ -32,7 +32,7 @@
 
 - name: Configure Apache's ports configuration.
   ansible.builtin.lineinfile:
-    dest: "{{ _apache__ports_configuration_file }}"
+    dest: "{{ apache__ports_configuration_file }}"
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"
     state: present
