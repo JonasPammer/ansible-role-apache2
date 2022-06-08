@@ -8,4 +8,4 @@
 
 - name: set apache installed fact
   ansible.builtin.set_fact:
-    apache__fact_install_changed: "{{ apache__register_pk5__install.changed }}"
+    apache__fact_install_changed: "{{ apache__register_package__install.changed }}"
