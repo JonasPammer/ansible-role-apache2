@@ -1,3 +1,30 @@
+{% macro _MACRO_LOG(name, var) -%}
+{%  if var is defined %}
+{%      if var.extra_parameters is defined %}
+    {{ var.extra_parameters | indent(width=2, first=True) }}
+{%      endif %}
+    {{ name }} {% if var.path is defined %}{{ var.path }} {% if var.extra is defined %}{{ vhost.ErrorLog.extra }}{% endif %}{% else %}{{ var }}{% endif %}}
+{%  endif %}
+{%- endmacro %}
+
+{% macro MACRO_LOGGING(vhost) -%}
+{%  if vhost.loglevel is defined %}
+    LogLevel {{ vhost.loglevel }}
+{%  endif %}
+{%  if vhost.logformat is defined %}
+    LogFormat {{ vhost.logformat }}
+{%  endif %}
+
+{{ _MACRO_LOG("ErrorLog", vhost.errorlog) }}
+
+{%  if vhost.customlogs is defined %}
+{%      for vhost_access_log in vhost.customlogs %}
+{{ _MACRO_LOG("CustomLog", vhost_access_log) }}
+{%      endfor %}
+{%  endif %}
+
+{%- endmacro %}
+
 # {{ ansible_managed }}
 {{ apache_global_vhost_settings }}
 
@@ -8,13 +35,13 @@
 {%   if vhost.serveralias is defined %}
   ServerAlias {{ vhost.serveralias }}
 {%   endif %}
+{%   if vhost.serveradmin is defined %}
+  ServerAdmin {{ vhost.serveradmin }}
+{%   endif %}
 {%   if vhost.documentroot is defined %}
   DocumentRoot "{{ vhost.documentroot }}"
 {%   endif %}
 
-{%   if vhost.serveradmin is defined %}
-  ServerAdmin {{ vhost.serveradmin }}
-{%   endif %}
 {%   if vhost.documentroot is defined %}
   <Directory "{{ vhost.documentroot }}">
     AllowOverride {{ vhost.documentroot__allowoverride | default(apache_vhosts_default_documentroot__allowoverride) }}
@@ -27,11 +54,17 @@
 {%     endif %}
   </Directory>
 {%   endif %}
+
+  {{ MACRO_LOGGING(vhost) }}
+
+
 {%   if vhost.extra_parameters is defined %}
 {{ vhost.extra_parameters | indent(width=2, first=True) }}
 {%   endif %}
 </VirtualHost>
 {% endfor %}
+
+
 
 {#- Set up SSL VirtualHosts -#}
 {% for vhost in apache_vhosts_ssl %}
@@ -40,6 +73,9 @@
   ServerName {{ vhost.servername }}
 {%     if vhost.serveralias is defined %}
   ServerAlias {{ vhost.serveralias }}
+{%     endif %}
+{%     if vhost.serveradmin is defined %}
+  ServerAdmin {{ vhost.serveradmin }}
 {%     endif %}
 {%     if vhost.documentroot is defined %}
   DocumentRoot "{{ vhost.documentroot }}"
@@ -58,9 +94,6 @@
   SSLCertificateChainFile {{ vhost.ssl_certificate_chain_file }}
 {%     endif %}
 
-{%     if vhost.serveradmin is defined %}
-  ServerAdmin {{ vhost.serveradmin }}
-{%     endif %}
 {%     if vhost.documentroot is defined %}
   <Directory "{{ vhost.documentroot }}">
     AllowOverride {{ vhost.documentroot__allowoverride | default(apache_vhosts_default_documentroot__allowoverride) }}
@@ -73,6 +106,10 @@
 {%       endif %}
   </Directory>
 {%     endif %}
+
+  {{ MACRO_LOGGING(vhost) }}
+
+
 {%     if vhost.extra_parameters is defined %}
 {{ vhost.extra_parameters | indent(width=2, first=True) }}
 {%     endif %}
