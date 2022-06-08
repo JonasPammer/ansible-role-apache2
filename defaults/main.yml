@@ -48,6 +48,8 @@ apache_mods_enabled:
   - ssl
 apache_mods_disabled: []
 
+apache_default_favicon: favicon.ico # shipped with this role
+
 ### VirtualHost Variables ###
 apache_create_vhosts: true
 apache_vhosts_filename: "vhosts.conf"
