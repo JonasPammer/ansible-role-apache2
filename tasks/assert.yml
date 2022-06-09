@@ -1,10 +1,44 @@
 ---
 # tasks file for testing that variables of ansible-role jonaspammer.apache2 are set correctly
 
-# - name: test if variable_name is set correctly
-#   ansible.builtin.assert:
-#     that:
-#       - variable_name is defined
-#       - variable_name is number
-#       - variable_name >= 0
-#     quiet: true
+- name: test if 'apache_packages' is set correctly
+  ansible.builtin.assert:
+    that:
+      - apache_packages is defined
+      - apache_packages | type_debug in ["list", "string"]
+    quiet: true
+
+- name: test if 'apache_mods_enabled' is set correctly
+  ansible.builtin.assert:
+    that:
+      - apache_mods_enabled is defined
+      - apache_mods_enabled | type_debug in ["list"]
+    quiet: true
+
+- name: test if 'apache_mods_disabled' is set correctly
+  ansible.builtin.assert:
+    that:
+      - apache_mods_disabled is defined
+      - apache_mods_disabled | type_debug in ["list"]
+    quiet: true
+
+- name: test if 'apache_remove_default_vhost' is set correctly
+  ansible.builtin.assert:
+    that:
+      - apache_remove_default_vhost is defined
+      - apache_remove_default_vhost | type_debug in ["bool"]
+    quiet: true
+
+- name: test if 'apache_listen_port' is set correctly
+  ansible.builtin.assert:
+    that:
+      - apache_listen_port is defined
+      - apache_listen_port | type_debug in ["int"]
+    quiet: true
+
+- name: test if 'apache_listen_port_ssl' is set correctly
+  ansible.builtin.assert:
+    that:
+      - apache_listen_port_ssl is defined
+      - apache_listen_port_ssl | type_debug in ["int"]
+    quiet: true
