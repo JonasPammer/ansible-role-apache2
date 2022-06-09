@@ -5,8 +5,14 @@
 
   vars:
     apache_vhosts:
-      - servername: "example.com"
+      - servername: "www.local1.dev"
         documentroot: "/var/www/vhosts/example_com"
+      - servername: "wwww.local2.dev"
+        loglevel: info
+        errorlog: "${APACHE_LOG_DIR}/error.log"
+        customlog:
+          path: "${APACHE_LOG_DIR}/access.log"
+          extra: "combined"
 
   roles:
     - role: "ansible-role-apache2"
