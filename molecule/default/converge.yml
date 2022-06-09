@@ -3,46 +3,48 @@
   hosts: all
   become: true
 
-  vars:
-    apache_vhost_filename: "local.dev.conf"
-    apache_vhosts:
-      - servername: "www.local1.dev"
-        documentroot: "/var/www/vhosts/example_com"
-      - servername: "wwww.local2.dev"
-        loglevel: info
-        errorlog: "${APACHE_LOG_DIR}/error.log"
-        customlog:
-          path: "${APACHE_LOG_DIR}/access.log"
-          extra: "combined"
-      - servername: "www.local3.dev"
-        serveralias: "local3.dev"
-        documentroot: "/var/www/html"
-        extra_parameters: |
-          # Redirect all requests to 'www' subdomain. Apache 2.4+
-          RewriteEngine On
-          RewriteCond %{HTTP_HOST} !^www\. [NC]
-          RewriteRule ^(.*)$ %{REQUEST_SCHEME}://www.%{HTTP_HOST}%{REQUEST_URI} [R=302,L]
-    apache_ssl_vhosts:
-
   roles:
     - role: "ansible-role-apache2"
+      vars:
+        apache_vhosts_filename: "simple.conf"
+        apache_vhosts:
+          - servername: "www.local1.dev"
+            documentroot: "/var/www/vhosts/example_com"
 
-- name: Converge no_actual_ssl
-  hosts: all
-  become: true
-
-  vars:
-    apache_ssl_vhosts_ignore_missing_certificate: true # https only for redirect to http
-    apache_vhost_filename: "unsecurelocal.dev.conf"
-    apache_vhosts:
-      - servername: "unsecurelocal.dev"
-        extra_parameters: |
-          Redirect / http://unsecurelocal.dev/test
-    apache_ssl_vhosts:
-      - servername: "unsecurelocal.dev"
-        no_actual_ssl: true # https only for redirect to http
-        extra_parameters: |
-          Redirect / http://unsecurelocal.dev/test
-
-  roles:
     - role: "ansible-role-apache2"
+      vars:
+        apache_vhosts_filename: "log_test.conf"
+        apache_vhosts:
+          - servername: "wwww.local2.dev"
+            loglevel: info
+            errorlog: "${APACHE_LOG_DIR}/error.log"
+            customlog:
+              path: "${APACHE_LOG_DIR}/access.log"
+              extra: "combined"
+
+    - role: "ansible-role-apache2"
+      vars:
+        apache_vhosts_filename: "extra_params_test.conf"
+        apache_vhosts:
+          - servername: "www.local3.dev"
+            serveralias: "local3.dev"
+            documentroot: "/var/www/html"
+            extra_parameters: |
+              # Redirect all requests to 'www' subdomain. Apache 2.4+
+              RewriteEngine On
+              RewriteCond %{HTTP_HOST} !^www\. [NC]
+              RewriteRule ^(.*)$ %{REQUEST_SCHEME}://www.%{HTTP_HOST}%{REQUEST_URI} [R=302,L]
+
+    - role: "ansible-role-apache2"
+      vars:
+        apache_vhosts_filename: "no_actual_ssl.conf"
+        apache_ssl_vhosts_ignore_missing_certificate: true # https only for redirect to http
+        apache_vhosts:
+          - servername: "unsecurelocal.dev"
+            extra_parameters: |
+              Redirect / http://unsecurelocal.dev/test
+        apache_ssl_vhosts:
+          - servername: "unsecurelocal.dev"
+            no_actual_ssl: true # https only for redirect to http
+            extra_parameters: |
+              Redirect / http://unsecurelocal.dev/test
