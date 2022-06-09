@@ -4,6 +4,7 @@
   become: true
 
   vars:
+    apache_vhost_filename: "local.dev.conf"
     apache_vhosts:
       - servername: "www.local1.dev"
         documentroot: "/var/www/vhosts/example_com"
@@ -21,6 +22,27 @@
           RewriteEngine On
           RewriteCond %{HTTP_HOST} !^www\. [NC]
           RewriteRule ^(.*)$ %{REQUEST_SCHEME}://www.%{HTTP_HOST}%{REQUEST_URI} [R=302,L]
+    apache_ssl_vhosts:
+
+  roles:
+    - role: "ansible-role-apache2"
+
+- name: Converge no_actual_ssl
+  hosts: all
+  become: true
+
+  vars:
+    apache_ssl_vhosts_ignore_missing_certificate: true # https only for redirect to http
+    apache_vhost_filename: "unsecurelocal.dev.conf"
+    apache_vhosts:
+      - servername: "unsecurelocal.dev"
+        extra_parameters: |
+          Redirect / {{ http://unsecurelocal.dev/test }}
+    apache_ssl_vhosts:
+      - servername: "unsecurelocal.dev"
+        no_actual_ssl: true # https only for redirect to http
+        extra_parameters: |
+          Redirect / http://unsecurelocal.dev/test
 
   roles:
     - role: "ansible-role-apache2"
