@@ -37,7 +37,7 @@
     apache_vhosts:
       - servername: "unsecurelocal.dev"
         extra_parameters: |
-          Redirect / {{ http://unsecurelocal.dev/test }}
+          Redirect / http://unsecurelocal.dev/test
     apache_ssl_vhosts:
       - servername: "unsecurelocal.dev"
         no_actual_ssl: true # https only for redirect to http
