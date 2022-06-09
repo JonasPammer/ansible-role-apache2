@@ -746,7 +746,7 @@ roles:
 vars:
   apache_vhost_filename: "myvhost.conf"
   apache_vhosts:
-    - servername: "srvcmk.intra.nesevo.com"
+    - servername: "srvcmk.intra.jonaspammer.com"
       extra_parameters: |
         Redirect / {{ checkmk_site_url }}
 
@@ -759,7 +759,7 @@ generates the following VirtualHost:
 # Ansible managed.
 DirectoryIndex index.php index.html
 <VirtualHost *:80>
-    ServerName srvcmk.intra.nesevo.com
+    ServerName srvcmk.intra.jonaspammer.com
 
     Redirect / http://srvcmk.intra.jonaspammer.at/master
 </VirtualHost>
