@@ -13,6 +13,14 @@
         customlog:
           path: "${APACHE_LOG_DIR}/access.log"
           extra: "combined"
+      - servername: "www.local3.dev"
+        serveralias: "local3.dev"
+        documentroot: "/var/www/html"
+        extra_parameters: |
+          # Redirect all requests to 'www' subdomain. Apache 2.4+
+          RewriteEngine On
+          RewriteCond %{HTTP_HOST} !^www\. [NC]
+          RewriteRule ^(.*)$ %{REQUEST_SCHEME}://www.%{HTTP_HOST}%{REQUEST_URI} [R=302,L]
 
   roles:
     - role: "ansible-role-apache2"
