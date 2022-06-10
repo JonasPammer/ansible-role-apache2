@@ -3,7 +3,7 @@
 {%      if var.extra_parameters is defined %}
     {{ var.extra_parameters | indent(width=2, first=True) }}
 {%      endif %}
-    {{ name }} {% if var.path is defined %}{{ var.path }} {% if var.extra is defined %}{{ vhost.ErrorLog.extra }}{% endif %}{% else %}{{ var }}{% endif %}}
+    {{ name }} {% if var.path is defined %}{{ var.path }} {% if var.extra is defined %}{{ vhost.ErrorLog.extra }}{% endif %}{% else %}{{ var }}{% endif %}
 {%  endif %}
 {%- endmacro %}
 
