@@ -35,10 +35,12 @@
 # https://httpd.apache.org/docs/2.4/programs/httpd.html
 - name: Run a Apache configuration file syntax check
   ansible.builtin.command: "{{ apache__daemon_dir }}/{{ apache__daemon }} -t"
+  changed_when: false
   register: apache2__register_command_config_syntax_test
 
 # TODO revert
-- debug:
+- name: temporary
+  debug:
     var: apache2__register_template_vhost
 
 - name: check if localhost cert exists (RHEL 8 and later)
