@@ -27,8 +27,19 @@
     owner: root
     group: root
     mode: 0644
+    backup: true
   notify: restart apache
   when: apache_create_vhosts | bool
+  register: apache2__register_template_vhost
+
+# https://httpd.apache.org/docs/2.4/programs/httpd.html
+- name: Run a Apache configuration file syntax check
+  ansible.builtin.command: "{{ apache__daemon_dir }}/{{ apache__daemon }} -t"
+  register: apache2__register_command_config_syntax_test
+
+# TODO revert
+- debug:
+    var: apache2__register_template_vhost
 
 - name: check if localhost cert exists (RHEL 8 and later)
   ansible.builtin.stat:
