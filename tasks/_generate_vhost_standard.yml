@@ -1,0 +1,54 @@
+- name: stat possibly already existing virtualhost file
+  ansible.builtin.stat:
+    path: "{{ apache_vhosts_file_path }}"
+  register: apache2__register_stat_vhost_file
+
+- name: create tempdir to backup current virtualhost file in
+  ansible.builtin.tempfile:
+    state: directory
+    suffix: "{{ apache_vhosts_filename }}"
+  changed_when: false
+  when: apache2__register_stat_vhost_file.stat.exists
+  register: apache2__register_tempfile_dir_vhost_backup
+
+- name: copy virtualhost file to backup directory (if the configured virtualhost file already exists)
+  ansible.builtin.copy:
+    remote_src: true
+    src: "{{ apache_vhosts_file_path }}"
+    dest: "{{ apache2__register_tempfile_dir_vhost_backup.path }}/{{ apache_vhosts_filename }}"
+  changed_when: false
+  when: apache2__register_stat_vhost_file.stat.exists
+
+- name: Generate configured Apache VirtualHost file and ensure correct owner/group/mode.
+  ansible.builtin.template:
+    src: "{{ apache_vhosts_template }}"
+    dest: "{{ apache_vhosts_file_path }}"
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart apache
+  when: apache_create_vhosts | bool
+
+- name: Run a Apache configuration files syntax check
+  ansible.builtin.command: "{{ apache__daemon_dir }}/{{ apache__daemon }} -t"
+  changed_when: false
+  ignore_errors: true
+  register: apache2__register_command_config_syntax_test
+
+- name: restore old virtualhost file if apache configuration files syntax check failed
+  ansible.builtin.copy:
+    remote_src: true
+    src: "{{ apache2__register_tempfile_dir_vhost_backup.path }}/{{ apache_vhosts_filename }}"
+    dest: "{{ apache_vhosts_file_path }}"
+    force: yes
+  when: apache2__register_stat_vhost_file.stat.exists and apache2__register_command_config_syntax_test.failed
+
+- name: delete generated virtualhost file if apache configuration files syntax check failed and there was no virtualhost file before
+  ansible.builtin.file:
+    path: "{{ apache_vhosts_file_path }}"
+    state: absent
+  when: not apache2__register_stat_vhost_file.stat.exists and apache2__register_command_config_syntax_test.failed
+
+- name: fail if apache configuration files syntax check failed
+  ansible.builtin.fail:
+  when: apache2__register_command_config_syntax_test.failed
