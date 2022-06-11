@@ -17,9 +17,9 @@
         apache_vhosts:
           - servername: "wwww.local2.dev"
             loglevel: info
-            errorlog: "${APACHE_LOG_DIR}/error.log"
+            errorlog: "{{ apache__default_log_dir }}/local2-error.log"
             customlog:
-              path: "${APACHE_LOG_DIR}/access.log"
+              path: "${{ apache__default_log_dir }}/local2-access.log"
               extra: "combined"
 
     - role: "ansible-role-apache2"

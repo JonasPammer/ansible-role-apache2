@@ -578,6 +578,28 @@ Consult the NOTE/TIP found in <<apache__primary_configuration_file_path>>
 to know what Directories are being `Include`-ed by default on different OS'es.
 ****
 
+[[apache__default_log_dir]]
+.`apache__default_log_dir`
+****
+Directory in `/var` used by default for all virtual hosts.
+
+.RedHat
+----
+[root@instance-py3-ansible-5 /]# ll /var/log/httpd/
+total 8
+-rw-r--r-- 1 root root   0 Jun 11 11:16 access_log
+-rw-r--r-- 1 root root 980 Jun 11 11:16 error_log
+-rw-r--r-- 1 root root   0 Jun 11 11:16 ssl_access_log
+-rw-r--r-- 1 root root 328 Jun 11 11:16 ssl_error_log
+-rw-r--r-- 1 root root   0 Jun 11 11:16 ssl_request_log
+----
+
+.Debian
+----
+
+----
+****
+
 
 [[dependencies]]
 == 👫 Dependencies
@@ -676,13 +698,13 @@ roles:
   - "apache2"
 
 vars:
-  apache_vhost_filename: "myvhost.conf"
+  apache_vhost_filename: "local2.dev.conf"
   apache_vhosts:
-    - servername: "www.local.dev"
+    - servername: "wwww.local2.dev"
       loglevel: info
-      errorlog: "${APACHE_LOG_DIR}/error.log"
+      errorlog: "{{ apache__default_log_dir }}/local2-error.log"
       customlog:
-        path: "${APACHE_LOG_DIR}/access.log"
+        path: "${{ apache__default_log_dir }}/local2-access.log"
         extra: "combined"
 ----
 +
