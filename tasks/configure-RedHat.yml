@@ -1,9 +1,4 @@
 ---
-- name: check whether certificates defined in vhosts exist
-  ansible.builtin.stat: path={{ item.certificate_file }}
-  register: apache__register_looped_stat_of_vhosts_ssl_certificate_files
-  with_items: "{{ apache_vhosts_ssl }}"
-
 - name: Enable configured Apache mods (Debian).
   ansible.builtin.copy:
     dest: "{{ apache__server_root_dir }}/conf.modules.d/99-ansible-{{ item }}.conf"
@@ -53,6 +48,11 @@
   changed_when: false
   when: apache2__register_stat_vhost_file.stat.exists
 
+- name: check whether certificates defined in vhosts exist
+  ansible.builtin.stat: path={{ item.certificate_file }}
+  register: apache__register_looped_stat_of_vhosts_ssl_certificate_files
+  with_items: "{{ apache_vhosts_ssl }}"
+
 - name: Generate configured Apache VirtualHost file and ensure correct owner/group/mode.
   ansible.builtin.template:
     src: "{{ apache_vhosts_template }}"
@@ -63,7 +63,6 @@
   notify: restart apache
   when: apache_create_vhosts | bool
 
-# https://httpd.apache.org/docs/2.4/programs/httpd.html
 - name: Run a Apache configuration files syntax check
   ansible.builtin.command: "{{ apache__daemon_dir }}/{{ apache__daemon }} -t"
   changed_when: false
