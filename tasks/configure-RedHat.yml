@@ -77,8 +77,9 @@
 
 - name: delete generated virtualhost file if apache configuration files syntax check failed and there was no virtualhost file before
   ansible.builtin.file:
-    src: "{{ apache__server_conf_dir }}/{{ apache_vhosts_filename }}"
+    path: "{{ apache__server_conf_dir }}/{{ apache_vhosts_filename }}"
     state: absent
+  when: not apache2__register_stat_vhost_file.stat.exists and apache2__register_command_config_syntax_test.failed
 
 - name: fail if apache configuration files syntax check failed
   ansible.builtin.fail:
