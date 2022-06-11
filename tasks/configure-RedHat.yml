@@ -33,4 +33,4 @@
   with_items: "{{ apache_vhosts_ssl }}"
 
 - name: include tasks to safely generate vhost
-  ansible.builtin.import_tasks: "_generate_vhost_standard.yml"
+  ansible.builtin.include_tasks: "_generate_vhost_standard.yml"
