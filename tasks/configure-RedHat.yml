@@ -41,6 +41,7 @@
   ansible.builtin.tempfile:
     state: directory
     suffix: "{{ apache_vhosts_filename }}"
+  changed_when: false
   when: apache2__register_stat_vhost_file.stat.exists
   register: apache2__register_tempfile_dir_vhost_backup
 
