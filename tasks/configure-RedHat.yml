@@ -41,6 +41,7 @@
   ansible.builtin.tempfile:
     state: directory
     suffix: "{{ apache_vhosts_filename }}"
+  when: apache2__register_stat_vhost_file.stat.exists
   register: apache2__register_tempfile_dir_vhost_backup
 
 - name: copy virtualhost file to backup directory (if the configured virtualhost file already exists)
@@ -48,6 +49,7 @@
     remote_src: true
     src: "{{ apache__server_conf_dir }}/{{ apache_vhosts_filename }}"
     dest: "{{ apache2__register_tempfile_dir_vhost_backup.path }}/{{ apache_vhosts_filename }}"
+  changed_when: false
   when: apache2__register_stat_vhost_file.stat.exists
 
 - name: Generate configured Apache VirtualHost file and ensure correct owner/group/mode.
