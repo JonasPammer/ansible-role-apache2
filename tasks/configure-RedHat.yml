@@ -81,4 +81,5 @@
     state: absent
 
 - name: fail if apache configuration files syntax check failed
+  ansible.builtin.fail:
   when: apache2__register_command_config_syntax_test.failed
