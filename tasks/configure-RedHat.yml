@@ -27,62 +27,10 @@
     - ansible_distribution_major_version | int >= 8
     - not apache__register_stat_rhel_localhost_cert.stat.exists
 
-- name: stat possibly already existing virtualhost file
-  ansible.builtin.stat:
-    path: "{{ apache__server_conf_dir }}/{{ apache_vhosts_filename }}"
-  register: apache2__register_stat_vhost_file
-
-- name: create tempdir to backup current virtualhost file in
-  ansible.builtin.tempfile:
-    state: directory
-    suffix: "{{ apache_vhosts_filename }}"
-  changed_when: false
-  when: apache2__register_stat_vhost_file.stat.exists
-  register: apache2__register_tempfile_dir_vhost_backup
-
-- name: copy virtualhost file to backup directory (if the configured virtualhost file already exists)
-  ansible.builtin.copy:
-    remote_src: true
-    src: "{{ apache__server_conf_dir }}/{{ apache_vhosts_filename }}"
-    dest: "{{ apache2__register_tempfile_dir_vhost_backup.path }}/{{ apache_vhosts_filename }}"
-  changed_when: false
-  when: apache2__register_stat_vhost_file.stat.exists
-
 - name: check whether certificates defined in vhosts exist
   ansible.builtin.stat: path={{ item.certificate_file }}
   register: apache__register_looped_stat_of_vhosts_ssl_certificate_files
   with_items: "{{ apache_vhosts_ssl }}"
 
-- name: Generate configured Apache VirtualHost file and ensure correct owner/group/mode.
-  ansible.builtin.template:
-    src: "{{ apache_vhosts_template }}"
-    dest: "{{ apache__server_conf_dir }}/{{ apache_vhosts_filename }}"
-    owner: root
-    group: root
-    mode: 0644
-  notify: restart apache
-  when: apache_create_vhosts | bool
-
-- name: Run a Apache configuration files syntax check
-  ansible.builtin.command: "{{ apache__daemon_dir }}/{{ apache__daemon }} -t"
-  changed_when: false
-  ignore_errors: true
-  register: apache2__register_command_config_syntax_test
-
-- name: restore old virtualhost file if apache configuration files syntax check failed
-  ansible.builtin.copy:
-    remote_src: true
-    src: "{{ apache2__register_tempfile_dir_vhost_backup.path }}/{{ apache_vhosts_filename }}"
-    dest: "{{ apache__server_conf_dir }}/{{ apache_vhosts_filename }}"
-    force: yes
-  when: apache2__register_stat_vhost_file.stat.exists and apache2__register_command_config_syntax_test.failed
-
-- name: delete generated virtualhost file if apache configuration files syntax check failed and there was no virtualhost file before
-  ansible.builtin.file:
-    path: "{{ apache__server_conf_dir }}/{{ apache_vhosts_filename }}"
-    state: absent
-  when: not apache2__register_stat_vhost_file.stat.exists and apache2__register_command_config_syntax_test.failed
-
-- name: fail if apache configuration files syntax check failed
-  ansible.builtin.fail:
-  when: apache2__register_command_config_syntax_test.failed
+- name: include tasks to safely generate vhost
+  ansible.builtin.import_tasks: "_generate_vhost_standard.yml"

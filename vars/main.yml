@@ -37,6 +37,10 @@ _apache__server_conf_dir:
   Solaris: /etc/apache2/2.4/conf.d
   Amazon_NA: *_apache__server_conf_dir_redhat
 
+_apache_vhosts_file_path:
+  default: "{{ apache__server_conf_dir }}/{{ apache_vhosts_filename }}"
+  Debian: "{{ apache__server_conf_dir }}/sites-available/{{ apache_vhosts_filename }}"
+
 _apache__default_log_dir:
   default: /var/log/httpd
   Debian: /var/log/apache2
@@ -102,6 +106,12 @@ apache__server_conf_dir: "{{
   _apache__server_conf_dir[ansible_distribution])|default(
   _apache__server_conf_dir[ansible_os_family])|default(
   _apache__server_conf_dir['default']) }}"
+apache_vhosts_file_path: "{{
+  _apache_vhosts_file_path[ansible_distribution ~ '_' ~ ansible_distribution_major_version]|default(
+  _apache_vhosts_file_path[ansible_os_family ~ '_' ~ ansible_distribution_major_version])|default(
+  _apache_vhosts_file_path[ansible_distribution])|default(
+  _apache_vhosts_file_path[ansible_os_family])|default(
+  _apache_vhosts_file_path['default']) }}"
 apache__default_log_dir: "{{
   _apache__default_log_dir[ansible_distribution ~ '_' ~ ansible_distribution_major_version]|default(
   _apache__default_log_dir[ansible_os_family ~ '_' ~ ansible_distribution_major_version])|default(
