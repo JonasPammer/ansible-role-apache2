@@ -20,18 +20,6 @@
   with_items: "{{ apache_mods_disabled }}"
   notify: restart apache
 
-- name: Generate configured Apache VirtualHost file and ensure correct owner/group/mode.
-  ansible.builtin.template:
-    src: "{{ apache_vhosts_template }}"
-    dest: "{{ apache__server_conf_dir }}/{{ apache_vhosts_filename }}"
-    owner: root
-    group: root
-    mode: 0644
-    backup: true
-  notify: restart apache
-  when: apache_create_vhosts | bool
-  register: apache2__register_template_vhost
-
 - name: check if localhost cert exists (RHEL 8 and later)
   ansible.builtin.stat:
     path: /etc/pki/tls/certs/localhost.crt
@@ -43,6 +31,17 @@
   when:
     - ansible_distribution_major_version | int >= 8
     - not apache__register_stat_rhel_localhost_cert.stat.exists
+
+- name: Generate configured Apache VirtualHost file and ensure correct owner/group/mode.
+  ansible.builtin.template:
+    src: "{{ apache_vhosts_template }}"
+    dest: "{{ apache__server_conf_dir }}/{{ apache_vhosts_filename }}"
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart apache
+  when: apache_create_vhosts | bool
+  register: apache2__register_template_vhost
 
 # https://httpd.apache.org/docs/2.4/programs/httpd.html
 - name: Run a Apache configuration file syntax check
