@@ -674,7 +674,12 @@ pre.rouge {
 <ul class="sectlevel1">
 <li><a href="#meta">🔎 Metadata</a></li>
 <li><a href="#requirements">📌 Requirements</a></li>
-<li><a href="#variables">📜 Role Variables</a></li>
+<li><a href="#variables">📜 Role Variables</a>
+<ul class="sectlevel2">
+<li><a href="#_role_variables_used_for_installation">Role Variables used for installation</a></li>
+<li><a href="#_role_variables_used_to_create_virtual_hosts">Role Variables used to create Virtual Hosts</a></li>
+</ul>
+</li>
 <li><a href="#public_vars">📜 Facts/Variables defined by this role</a></li>
 <li><a href="#dependencies">👫 Dependencies</a></li>
 <li><a href="#example_playbooks">📚 Example Playbook Usages</a></li>
@@ -729,12 +734,12 @@ pre.rouge {
 <pre class="rouge highlight"><code data-lang="yaml"><span class="nn">---</span>
 <span class="na">galaxy_info</span><span class="pi">:</span>
   <span class="na">role_name</span><span class="pi">:</span> <span class="s2">"</span><span class="s">apache2"</span>
-  <span class="na">description</span><span class="pi">:</span> <span class="s2">"</span><span class="s">An</span><span class="nv"> </span><span class="s">ansible</span><span class="nv"> </span><span class="s">role</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">installing</span><span class="nv"> </span><span class="s">Apache2,</span><span class="nv"> </span><span class="s">enabling/disabling</span><span class="nv"> </span><span class="s">modules,</span><span class="nv"> </span><span class="s">configuring</span><span class="nv"> </span><span class="s">its</span><span class="nv"> </span><span class="s">defaults</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">creating</span><span class="nv"> </span><span class="s">virtual</span><span class="nv"> </span><span class="s">hosts.."</span>
+  <span class="na">description</span><span class="pi">:</span> <span class="s2">"</span><span class="s">An</span><span class="nv"> </span><span class="s">ansible</span><span class="nv"> </span><span class="s">role</span><span class="nv"> </span><span class="s">for</span><span class="nv"> </span><span class="s">installing</span><span class="nv"> </span><span class="s">Apache2,</span><span class="nv"> </span><span class="s">enabling/disabling</span><span class="nv"> </span><span class="s">modules,</span><span class="nv"> </span><span class="s">configuring</span><span class="nv"> </span><span class="s">its</span><span class="nv"> </span><span class="s">defaults</span><span class="nv"> </span><span class="s">and</span><span class="nv"> </span><span class="s">creating</span><span class="nv"> </span><span class="s">virtual</span><span class="nv"> </span><span class="s">hosts."</span>
 
   <span class="na">author</span><span class="pi">:</span> <span class="s2">"</span><span class="s">jonaspammer"</span>
   <span class="na">license</span><span class="pi">:</span> <span class="s">MIT</span>
 
-  <span class="na">min_ansible_version</span><span class="pi">:</span> <span class="s2">"</span><span class="s">2.9"</span>
+  <span class="na">min_ansible_version</span><span class="pi">:</span> <span class="s2">"</span><span class="s">2.11"</span>
   <span class="na">platforms</span><span class="pi">:</span>
     <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">EL</span> <span class="c1"># (Enterprise Linux)</span>
       <span class="na">versions</span><span class="pi">:</span>
@@ -752,10 +757,20 @@ pre.rouge {
         <span class="pi">-</span> <span class="s">xenial</span> <span class="c1"># ubuntu1604 (actively tested)</span>
         <span class="pi">-</span> <span class="s">bionic</span> <span class="c1"># ubuntu1804 (actively tested)</span>
         <span class="pi">-</span> <span class="s">focal</span> <span class="c1"># ubuntu2004 (actively tested)</span>
+    <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Solaris</span>
+      <span class="na">versions</span><span class="pi">:</span>
+        <span class="pi">-</span> <span class="s2">"</span><span class="s">11.3"</span> <span class="c1"># warning: not actively tested</span>
 
-  <span class="na">galaxy_tags</span><span class="pi">:</span> <span class="pi">[]</span>
+  <span class="na">galaxy_tags</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="s">web</span>
+    <span class="pi">-</span> <span class="s">apache</span>
+    <span class="pi">-</span> <span class="s">webserver</span>
+    <span class="pi">-</span> <span class="s">html</span>
+    <span class="pi">-</span> <span class="s">httpd</span>
 
-<span class="na">dependencies</span><span class="pi">:</span> <span class="pi">[]</span></code></pre>
+<span class="na">dependencies</span><span class="pi">:</span> <span class="pi">[]</span>
+
+<span class="na">allow_duplicates</span><span class="pi">:</span> <span class="no">true</span></code></pre>
 </div>
 </div>
 </div>
@@ -767,7 +782,7 @@ pre.rouge {
 <p>The Ansible User needs to be able to <code>become</code>.</p>
 </div>
 <div class="paragraph">
-<p>If you are using SSL/TLS (<a href="#apache_ssl_vhosts">[apache_ssl_vhosts]</a>), you will need to provide your own certificate and key files.</p>
+<p>If you are using SSL/TLS (<a href="#apache_vhosts_ssl">[apache_vhosts_ssl]</a>), you will need to provide your own certificate and key files.</p>
 </div>
 <div class="paragraph">
 <p>If you are using Apache with PHP, I recommend using the
@@ -794,28 +809,414 @@ the <a href="https://galaxy.ansible.com/community/general"><code>community.gener
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
-<pre class="rouge highlight"><code data-lang="yaml"><span class="na">variable</span><span class="pi">:</span> <span class="s">default value</span></code></pre>
+<pre class="rouge highlight"><code data-lang="yaml"><span class="na">apache_mods_enabled</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">rewrite</span>
+  <span class="pi">-</span> <span class="s">ssl</span>
+<span class="na">apache_mods_disabled</span><span class="pi">:</span> <span class="pi">[]</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Description</p>
+<p>(Debian/RHEL only)
+Apache mods to enable or disable (these will be symlinked into the appropriate location).
+Consult the <code>mods-available</code> (Debian) / <code>conf.modules.d</code> (RHEL) directory inside <a href="#apache__server_root_dir">apache&#8217;s root directory</a> for all the available mods.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="rouge highlight"><code data-lang="yaml"><span class="na">variable</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">OS-specific by default</span><span class="pi">,</span> <span class="nv">see /vars directory</span><span class="pi">]</span></code></pre>
+<pre class="rouge highlight"><code data-lang="yaml"><span class="na">apache_listen_ip</span><span class="pi">:</span> <span class="s2">"</span><span class="s">*"</span>
+<span class="na">apache_listen_port</span><span class="pi">:</span> <span class="m">80</span>
+<span class="na">apache_listen_port_ssl</span><span class="pi">:</span> <span class="s">443</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>Description</p>
+<p>The IP address and ports on which apache should be listening.
+Useful if you have another service (like a reverse proxy) listening
+on port 80 or 443 and need to change the defaults.</p>
 </div>
 <div class="listingblock">
 <div class="content">
-<pre class="rouge highlight"><code data-lang="yaml"><span class="na">variable</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">OS-specific by default</span><span class="pi">,</span> <span class="nv">see /vars directory</span><span class="pi">]</span></code></pre>
+<pre class="rouge highlight"><code data-lang="yaml"><span class="na">apache_remove_default_vhost</span><span class="pi">:</span> <span class="no">false</span></code></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>(Debian/Ubuntu only)
-Description</p>
+<p>On Debian/Ubuntu, a default virtualhost is included in Apache&#8217;s configuration.
+Set this to <code>true</code> to remove that default.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="na">apache_state</span><span class="pi">:</span> <span class="s">started</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Set initial apache state.
+Recommended values: <code>started</code> or <code>stopped</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="na">apache_enabled</span><span class="pi">:</span> <span class="no">true</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Set initial apache service status.
+Recommended values: <code>true</code> or <code>false</code></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="na">apache_restart_state</span><span class="pi">:</span> <span class="s">restarted</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Sets the state to put apache in when a configuration change was made
+(i.e., when the handler has been called).
+Recommended values: <code>restarted</code> or <code>reloaded</code></p>
+</div>
+<div id="apache_default_favicon" class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="na">apache_default_favicon</span><span class="pi">:</span> <span class="s">favicon.ico</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Path to a file on the local Ansible Controller to be copied to the server
+and used by Apache as a default favicon.</p>
+</div>
+<div class="sect2">
+<h3 id="_role_variables_used_for_installation">Role Variables used for installation</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="na">apache_packages</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">OS-specific by default</span><span class="pi">,</span> <span class="nv">see /defaults directory</span><span class="pi">]</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>A list of package names for installing Apache2 and most-necessary utilities.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="na">apache_packages_state</span><span class="pi">:</span> <span class="s">present</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you have enabled any additional repositories such as
+<a href="https://launchpad.net/~ondrej/+archive/ubuntu/apache2"><code>ondrej/apache2</code></a>,
+<a href="https://fedoraproject.org/wiki/EPEL"><code>EPEL</code></a>, or
+<a href="http://rpms.remirepo.net/"><code>remi</code></a>,
+you may want an easy way to upgrade versions.
+To ensure so, set this to <code>latest</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="na">apache_enablerepo</span><span class="pi">:</span> <span class="s2">"</span><span class="s">"</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>(RHEL/CentOS only)
+The <a href="https://docs.ansible.com/ansible/latest/collections/ansible/builtin/yum_module.html#parameter-enablerepo">repository</a>
+to use when installing Apache.
+If you&#8217;d like later versions of Apache than are available in the OS&#8217;s core repositories,
+use a repository like
+<a href="https://fedoraproject.org/wiki/EPEL">EPEL</a>
+(which can be installed with the <code>repo-epel</code> role).</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_role_variables_used_to_create_virtual_hosts">Role Variables used to create Virtual Hosts</h3>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+Head over to the <a href="#example_playbooks">📚 Example Playbook Usages</a>-Section for
+examples showing how the produced VirtualHost-File may look like.
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>This role tries to ensure a <strong>working</strong> apache configuration by running
+<a href="https://httpd.apache.org/docs/2.4/programs/httpd.html">syntax tests for all configuration files (<code>-t</code>)</a>
+and reverting the generated virtualhost if an error occurred.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="na">apache_create_vhosts</span><span class="pi">:</span> <span class="no">true</span>
+<span class="na">apache_vhosts_filename</span><span class="pi">:</span> <span class="s2">"</span><span class="s">vhosts.conf"</span>
+<span class="na">apache_vhosts_template</span><span class="pi">:</span> <span class="s2">"</span><span class="s">vhosts.conf.j2"</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If set to <code>true</code>, a vhosts file managed by the variables of this role (see below),
+is created and placed in the Apache configuration folder.
+If set to <code>false</code>, you can place your own vhosts file into Apache&#8217;s configuration folder and skip the convenient (but more basic) one added by this role.</p>
+</div>
+<div class="paragraph">
+<p>You can also override the template used and set a path to your own template,
+if you need to further customize the layout of your VirtualHost.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="na">apache_global_vhost_settings</span><span class="pi">:</span> <span class="pi">|</span>
+  <span class="s">DirectoryIndex index.php index.html</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This variable gets used <strong><em>outside any &lt;VirtualHost&gt; Directive</em></strong>
+in the generated virtualhost file.</p>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Warning</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>You hereby change the configurations applied to Apache&#8217;s general context
+(instead of changing the configurations applied to, for example, a <code>&lt;VirtualHost&gt;</code>/ <code>&lt;Directory&gt;</code>/…).</p>
+</div>
+<div class="paragraph">
+<p>A thing to understand with this default value is that
+<strong>the <code>DirectoryIndex</code> does not <em>set</em> but rather <em>append</em></strong>
+(Meaning we do not reverse any other configuration made),
+as noted on its Documentation page:</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>Multiple <code>DirectoryIndex</code> directives within the same context will add to
+the list of resources to look for rather than replace.</p>
+</div>
+</blockquote>
+<div class="attribution">
+&#8212; https://httpd.apache.org/docs/2.4/mod/mod_dir.html
+</div>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="na">apache_vhosts</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">servername</span><span class="pi">:</span> <span class="s2">"</span><span class="s">local.dev"</span>
+    <span class="na">documentroot</span><span class="pi">:</span> <span class="s2">"</span><span class="s">/var/www/html"</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For each entry in this list,
+a <code>&lt;VirtualHost&gt;</code>-Directive listening to
+<code>{{ apache_listen_ip }}:{{ apache_listen_port }}</code>
+will be generated.</p>
+</div>
+<div class="paragraph">
+<p>Each entry of a list may have the following properties
+(Consult the <a href="#example_playbooks">📚 Example Playbook Usages</a>-Section for Examples.
+Consult the linked official documentation pages for the documentation
+of the actual Apache Directives they represent).</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><code><a href="https://httpd.apache.org/docs/2.4/mod/core.html#servername">servername</a></code> (required)</dt>
+<dt class="hdlist1"><code><a href="https://httpd.apache.org/docs/2.4/mod/core.html#serveralias">serveralias</a></code></dt>
+<dt class="hdlist1"><code><a href="https://httpd.apache.org/docs/2.4/mod/core.html#serveradmin">serveradmin</a></code></dt>
+<dt class="hdlist1"><code><a href="https://httpd.apache.org/docs/2.4/mod/core.html#documentroot">documentroot</a></code></dt>
+<dt class="hdlist1"><code>documentroot__<a href="https://httpd.apache.org/docs/2.4/mod/core.html#servername">allowoverride</a></code></dt>
+<dd>
+<p><code>AllowOverride</code>-Directive used inside the <code>&lt;Directory&gt;</code> of the <code>DocumentRoot</code>.<br>
+Defaults to the value of <code>apache_vhosts_default_documentroot__allowoverride</code>.</p>
+</dd>
+<dt class="hdlist1"><code>documentroot__<a href="https://httpd.apache.org/docs/2.4/mod/core.html#options">options</a></code></dt>
+<dd>
+<p><code>Options</code>-Directive used inside the <code>&lt;Directory&gt;</code> of the <code>DocumentRoot</code>.<br>
+Defaults to the value of <code>apache_vhosts_default_documentroot__options</code>.</p>
+</dd>
+<dt class="hdlist1"><a href="https://httpd.apache.org/docs/2.4/mod/mod_log_config.html#logformat"><code>logformat</code></a></dt>
+<dt class="hdlist1"><code><a href="https://httpd.apache.org/docs/2.4/mod/core.html#loglevel">loglevel</a></code></dt>
+</dl>
+</div>
+<div id="apache_vhosts__errorlog" class="dlist">
+<dl>
+<dt class="hdlist1"><code><a href="https://httpd.apache.org/docs/2.4/mod/core.html#errorlog">errorlog</a></code></dt>
+<dd>
+<p>Either a string  (representing the path. does not get automatically quoted)
+or a complex data type:</p>
+<div class="exampleblock">
+<div class="content">
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><code>path</code></dt>
+<dd>
+<p>Path.
+Gets enquoted in <code>"</code>.</p>
+</dd>
+<dt class="hdlist1"><code>extra</code></dt>
+<dd>
+<p>Additional String to append after <code>path</code>.</p>
+</dd>
+<dt class="hdlist1"><code>extra_parameters</code></dt>
+<dd>
+<p>This variable gets inserted as-is <strong>before</strong> the actual <code>ErrorLog</code> statement
+(with an indent of 2).</p>
+<div class="paragraph">
+<p>The use case for this parameter may be to enable Conditional Logs using
+<code>SetEnvIf</code> / <code>SetEnv</code> or setting a custom <code>LogFormat</code> for this ErrorLog
+<a href="https://httpd.apache.org/docs/2.4/logs.html">Apache&#8217;s core Documentation</a>.</p>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+</dd>
+</dl>
+</div>
+<div id="apache_vhosts__customlogs" class="dlist">
+<dl>
+<dt class="hdlist1"><code><a href="https://httpd.apache.org/docs/2.4/mod/mod_log_config.html#customlog">customlogs</a></code></dt>
+<dd>
+<p>Array of CustomLogs.
+Each Entry may either be a string (does not get automatically quoted)
+or a complex data type:</p>
+<div class="exampleblock">
+<div class="content">
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><code>path</code></dt>
+<dd>
+<p>Path.
+Gets enquoted in <code>"</code>.</p>
+</dd>
+<dt class="hdlist1"><code>extra</code></dt>
+<dd>
+<p>Additional String to append after <code>path</code>.
+Does not get quoted
+(to allow for the complex additional optional parameters of CustomLog one may want to supply).</p>
+</dd>
+<dt class="hdlist1"><code>extra_parameters</code></dt>
+<dd>
+<p>This variable gets inserted as-is <strong>before</strong> the actual <code>CustomLog</code> statement
+(with an indent of 2).</p>
+<div class="paragraph">
+<p>The use case for this parameter may be to enable Conditional Logs using
+<code>SetEnvIf</code> / <code>SetEnv</code> or setting a custom <code>LogFormat</code> for this specifc CustomLog
+as per <a href="https://httpd.apache.org/docs/2.4/logs.html">Apache&#8217;s mod_log_config Documentation</a>.</p>
+</div>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+</dd>
+<dt class="hdlist1"><code>extra_parameters</code></dt>
+<dd>
+<p>This variable gets inserted as-is into the very end of the looped <code>&lt;VirtualHost&gt;</code> (with an indent of 2).</p>
+</dd>
+</dl>
+</div>
+<div id="apache_vhosts_ssl" class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="na">apache_vhosts_ssl</span><span class="pi">:</span> <span class="pi">[]</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For each entry in this list,
+a <code>&lt;VirtualHost&gt;</code>-Directive listening to
+<code>{{ apache_listen_ip }}:{{ apache_listen_port_ssl }}</code>
+will be generated.</p>
+</div>
+<div class="paragraph">
+<p>Each entry of a list may have the following properties
+(Consult the <a href="#example_playbooks">📚 Example Playbook Usages</a>-Section for Examples)
+(Consult the linked official documentation pages for the documentation
+of the actual Apache Directives they represent).</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><code><a href="https://httpd.apache.org/docs/2.4/mod/core.html#servername">servername</a></code> (required)</dt>
+<dt class="hdlist1"><code><a href="https://httpd.apache.org/docs/2.4/mod/core.html#serveralias">serveralias</a></code></dt>
+<dt class="hdlist1"><code><a href="https://httpd.apache.org/docs/2.4/mod/core.html#serveradmin">serveradmin</a></code></dt>
+<dt class="hdlist1"><code><a href="https://httpd.apache.org/docs/2.4/mod/core.html#documentroot">documentroot</a></code></dt>
+<dt class="hdlist1"><code>documentroot__<a href="https://httpd.apache.org/docs/2.4/mod/core.html#servername">allowoverride</a></code></dt>
+<dd>
+<p><code>AllowOverride</code>-Directive used inside the <code>&lt;Directory&gt;</code> of the <code>DocumentRoot</code>.<br>
+Defaults to <code>apache_vhosts_default_documentroot__allowoverride</code>.</p>
+</dd>
+<dt class="hdlist1"><code>documentroot__<a href="https://httpd.apache.org/docs/2.4/mod/core.html#options">options</a></code></dt>
+<dd>
+<p><code>Options</code>-Directive used inside the <code>&lt;Directory&gt;</code> of the <code>DocumentRoot</code>.
+Defaults to <code>apache_vhosts_default_documentroot__options</code>.</p>
+</dd>
+<dt class="hdlist1"><code>no_actual_ssl</code></dt>
+<dd>
+<p>If set to True, the <code>&lt;VirtualHost&gt;</code> will have no SSL* Options.
+Used only when you want a http-to-https redirect you defined in <code>extra_parameters</code>.</p>
+</dd>
+<dt class="hdlist1"><a href="https://httpd.apache.org/docs/current/mod/mod_ssl.html#sslcertificatefile">ssl_certificate_file</a> (required)</dt>
+<dt class="hdlist1"><a href="https://httpd.apache.org/docs/current/mod/mod_ssl.html#sslcertificatekeyfile">ssl_certificate_key_file</a> (required)</dt>
+<dt class="hdlist1"><a href="https://httpd.apache.org/docs/current/mod/mod_ssl.html#sslcertificatechainfile">ssl_certificate_chain_file</a></dt>
+<dd>
+<p><em>Please note that this Deprecated.</em></p>
+</dd>
+<dt class="hdlist1"><a href="https://httpd.apache.org/docs/2.4/mod/mod_log_config.html#logformat"><code>logformat</code></a></dt>
+<dt class="hdlist1"><code><a href="https://httpd.apache.org/docs/2.4/mod/core.html#loglevel">loglevel</a></code></dt>
+</dl>
+</div>
+<div id="apache_vhosts__errorlog" class="dlist">
+<dl>
+<dt class="hdlist1"><code><a href="https://httpd.apache.org/docs/2.4/mod/core.html#errorlog">errorlog</a></code></dt>
+<dd>
+<p>Equivalent of <a href="#apache_vhosts__errorlogs">apache_vhosts.errorlogs</a>.</p>
+</dd>
+<dt class="hdlist1"><code><a href="https://httpd.apache.org/docs/2.4/mod/mod_log_config.html#customlog">customlogs</a></code></dt>
+<dd>
+<p>Array of CustomLogs.
+Equivalent of <a href="#apache_vhosts__customlogs">apache_vhosts.customlogs</a>.</p>
+</dd>
+<dt class="hdlist1"><code>extra_parameters</code></dt>
+<dd>
+<p>This variable gets inserted as-is into the very end of the looped <code>&lt;VirtualHost&gt;</code> (with an indent of 2).</p>
+</dd>
+</dl>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="na">apache_ignore_missing_ssl_certificate</span><span class="pi">:</span> <span class="no">true</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If set to <code>false</code>, a given entry of <code>apache_vhosts_ssl</code>
+will only be generated if its <code>sslcertificatefile</code> exists.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="na">apache_ssl_protocol</span><span class="pi">:</span> <span class="s2">"</span><span class="s">All</span><span class="nv"> </span><span class="s">-SSLv2</span><span class="nv"> </span><span class="s">-SSLv3"</span>
+<span class="na">apache_ssl_cipher_suite</span><span class="pi">:</span> <span class="s2">"</span><span class="s">AES256+EECDH:AES256+EDH"</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>These variable are used as default for every <code>apache_vhosts_ssl</code>.
+They are named the same way as used in said Role variables
+(except for their prefix of course).
+Consult <a href="https://httpd.apache.org/docs/current/mod/mod_ssl.html">
+Apache&#8217;s Documentation</a>
+for the documentation of the actual Apache Directives they represent.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="na">apache_vhosts_default_documentroot__allowoverride</span><span class="pi">:</span> <span class="s2">"</span><span class="s">All"</span>
+<span class="na">apache_vhosts_default_documentroot__options</span><span class="pi">:</span> <span class="s2">"</span><span class="s">-Indexes</span><span class="nv"> </span><span class="s">+FollowSymLinks"</span></code></pre>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -826,6 +1227,260 @@ Description</p>
 <p>Each variable listed in this section
 is dynamically defined when executing this role (and can only be overwritten using <code>ansible.builtin.set_facts</code>) <em>and</em>
 is meant to be used not just internally.</p>
+</div>
+<div id="apache__service" class="sidebarblock">
+<div class="content">
+<div class="title"><code>apache__service</code></div>
+<div class="listingblock">
+<div class="title">Example Usage outside this role:</div>
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="c1"># handlers file for roles/xyz</span>
+<span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">restart httpd</span>
+  <span class="na">ansible.builtin.service</span><span class="pi">:</span>
+    <span class="na">name</span><span class="pi">:</span> <span class="s2">"</span><span class="s">{{</span><span class="nv"> </span><span class="s">apache__service</span><span class="nv"> </span><span class="s">|</span><span class="nv"> </span><span class="s">default('apache2')</span><span class="nv"> </span><span class="s">}}"</span>
+    <span class="na">state</span><span class="pi">:</span> <span class="s">restarted</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div id="apache__daemon" class="sidebarblock">
+<div class="content">
+<div class="title"><code>apache__daemon_dir</code>, <code>apache__daemon</code></div>
+<div class="paragraph">
+<p>Executable Name and Directory of the <code>apache2</code> command.</p>
+</div>
+</div>
+</div>
+<div id="debian_is_different_note" class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>When working with any of the below configuration values you need to remember:</p>
+</div>
+<div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>The Apache 2 web server configuration in <strong>Debian is quite different to
+upstream&#8217;s suggested way</strong> to configure the web server. This is because Debian&#8217;s
+default Apache2 installation attempts to make adding and removing modules,
+virtual hosts, and extra configuration directives as flexible as possible, in
+order to make automating the changes and administering the server as easy as
+possible.</p>
+</div>
+</blockquote>
+<div class="attribution">
+&#8212; Comment found in a Debian 10's /etc/apache2/apache2.conf
+</div>
+</div>
+<div class="paragraph">
+<p>This means that the <code>apache__server_root_dir</code>
+<strong>on Debian</strong> looks like this:</p>
+</div>
+<div class="listingblock">
+<div class="title">/etc/apache2 on a fresh Debian 10 machine</div>
+<div class="content">
+<pre>.
+├── apache2.conf
+├── conf-available
+│   ├── charset.conf
+│   ├── localized-error-pages.conf
+│   ├── other-vhosts-access-log.conf
+│   ├── php7.4-fpm.conf
+│   ├── security.conf
+│   └── serve-cgi-bin.conf
+├── conf-enabled
+│   ├── charset.conf -&gt; ../conf-available/charset.conf
+│   └── …
+├── envvars
+├── magic
+├── mods-available
+│   ├── access_compat.load
+│   ├── alias.load
+│   ├── alias.conf
+│   └── …
+├── mods-enabled
+│   ├── access_compat.load -&gt; ../mods-available/access_compat.load
+│   ├── alias.conf -&gt; ../mods-available/alias.conf
+│   ├── alias.load -&gt; ../mods-available/alias.load
+│   └── …
+├── ports.conf
+├── sites-available
+│   ├── 000-default.conf
+│   └── default-ssl.conf
+└── sites-enabled
+    └── 000-default.conf -&gt; ../sites-available/000-default.conf</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>While <mark>on other systems it looks like this</mark>:</p>
+</div>
+<div class="listingblock">
+<div class="title">/etc/httpd on a fresh CentOS 8 machine</div>
+<div class="content">
+<pre>.
+├── conf
+│   ├── httpd.conf
+│   └── magic
+├── conf.d
+│   ├── autoindex.conf
+│   ├── ssl.conf
+│   ├── userdir.conf
+│   └── welcome.conf
+├── conf.modules.d
+│   ├── 00-base.conf
+│   ├── 00-dav.conf
+│   ├── 00-lua.conf
+│   ├── 00-mpm.conf
+│   ├── 00-optional.conf
+│   ├── 00-proxy.conf
+│   ├── 00-ssl.conf
+│   ├── 00-systemd.conf
+│   ├── 01-cgi.conf
+│   ├── 10-h2.conf
+│   ├── 10-proxy_h2.conf
+│   └── README
+├── logs -&gt; ../../var/log/httpd
+│   └── …
+└── modules -&gt; ../../usr/lib64/httpd/modules
+    ├── mod_access_compat.so
+    ├── mod_actions.so
+    ├── mod_alias.so
+    └── …</pre>
+</div>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="apache__server_root_dir" class="sidebarblock">
+<div class="content">
+<div class="title"><code>apache__server_root_dir</code></div>
+<div class="paragraph">
+<p>Directory containing all Apache2 configuration (in <code>/etc</code>).</p>
+</div>
+</div>
+</div>
+<div id="apache__primary_configuration_file_path" class="sidebarblock">
+<div class="content">
+<div class="title"><code>apache__primary_configuration_file_path</code></div>
+<div class="paragraph">
+<p>Apache2&#8217;s primary configuration file,
+which <a href="http://httpd.apache.org/docs/2.4/mod/core.html#include">
+<code>Include</code></a>'s all the other files and contains some other Directives itself.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+<div class="title">Taking a look into how what is Include&#8217;ed</div>
+<div class="paragraph">
+<p>Debian&#8217;s Apache2 Include Directives as found in <code>apache__primary_configuration_file_path</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="ini"><span class="c"># Include module configuration:
+</span><span class="err">IncludeOptional</span> <span class="err">mods-enabled/*.load</span>
+<span class="err">IncludeOptional</span> <span class="err">mods-enabled/*.conf</span>
+
+<span class="c"># Include list of ports to listen on
+</span><span class="err">Include</span> <span class="err">ports.conf</span>
+
+<span class="c"># Include of directories ignores editors' and dpkg's backup files,
+# Include generic snippets of statements
+</span>
+<span class="err">IncludeOptional</span> <span class="err">conf-enabled/*.conf</span>
+<span class="c"># Include the virtual host configurations:
+</span><span class="err">IncludeOptional</span> <span class="err">sites-enabled/*.conf</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>RHEL&#8217;s Apache2 Include Directives as found in <code>apache__primary_configuration_file_path</code> on a CentOS 8 Machine:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="ini"><span class="c"># Dynamic Shared Object (DSO) Support
+#
+# To be able to use the functionality of a module which was built as a DSO you
+# have to place corresponding `LoadModule' lines at this location so the
+# directives contained in it are actually available _before_ they are used.
+# Statically compiled modules (those listed by `httpd -l') do not need
+# to be loaded here.
+#
+# Example:
+# LoadModule foo_module modules/mod_foo.so
+</span><span class="err">Include</span> <span class="err">conf.modules.d/*.conf</span>
+
+<span class="c"># Supplemental configuration:
+</span><span class="err">IncludeOptional</span> <span class="err">conf.d/*.conf</span></code></pre>
+</div>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div id="apache__ports_configuration_file" class="sidebarblock">
+<div class="content">
+<div class="title"><code>apache__ports_configuration_file</code></div>
+<div class="paragraph">
+<p>Apache2 Configuration File that houses the directives used
+to determine listening ports for incoming connections.</p>
+</div>
+<div class="paragraph">
+<p>On some systems this is the same as <code>apache<em>primary_configuration_file_path</code>,
+but on some it is an own file which is being
+<a href="http://httpd.apache.org/docs/2.4/mod/core.html#include">
+<code>Include</code></a>-ed by said <code>apache</em>primary_configuration_file_path</code>.</p>
+</div>
+</div>
+</div>
+<div id="apache__server_conf_dir" class="sidebarblock">
+<div class="content">
+<div class="title"><code>apache__server_conf_dir</code></div>
+<div class="paragraph">
+<p>Directory which houses all <a href="http://httpd.apache.org/docs/2.4/mod/core.html#include">
+<code>Include</code></a>-ed files.</p>
+</div>
+<div class="paragraph">
+<p>This directory may not be <code>Include</code>-ed itself but have sub-directories that are being <code>Include</code>-ed.
+Consult the NOTE/TIP found in <a href="#apache__primary_configuration_file_path"><code>apache__primary_configuration_file_path</code></a>
+to know what Directories are being <code>Include</code>-ed by default on different OS&#8217;es.</p>
+</div>
+</div>
+</div>
+<div id="apache__default_log_dir" class="sidebarblock">
+<div class="content">
+<div class="title"><code>apache__default_log_dir</code></div>
+<div class="paragraph">
+<p>Directory in <code>/var</code> used by default for all virtual hosts.</p>
+</div>
+<div class="listingblock">
+<div class="title">RedHat</div>
+<div class="content">
+<pre>[root@instance-py3-ansible-5 /]# ll /var/log/httpd/
+total 8
+-rw-r--r-- 1 root root   0 Jun 11 11:16 access_log
+-rw-r--r-- 1 root root 980 Jun 11 11:16 error_log
+-rw-r--r-- 1 root root   0 Jun 11 11:16 ssl_access_log
+-rw-r--r-- 1 root root 328 Jun 11 11:16 ssl_error_log
+-rw-r--r-- 1 root root   0 Jun 11 11:16 ssl_request_log</pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">Debian</div>
+<div class="content">
+<pre></pre>
+</div>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -880,15 +1535,223 @@ as well as the recursive tree of their soft dependencies.</p>
 </table>
 </div>
 <div class="exampleblock">
-<div class="title">Example 1. Minimum Viable Play</div>
+<div class="title">Example 1. Standard Installation needs no variables</div>
 <div class="content">
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Given no role configuration, the deviance&#8217;s from just installing Apache2 yourself are</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>certain modules get activated by default (<code><a href="#apache_mods_enabled">[apache_mods_enabled]</a></code>).</p>
+</li>
+<li>
+<p>the system will have the following VirtualHost:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code># Ansible managed
+DirectoryIndex index.php index.html
+&lt;VirtualHost *:80&gt;
+    ServerName local.dev
+    DocumentRoot "/var/www/html"
+
+    &lt;Directory "/var/www/html"&gt;
+        AllowOverride All
+        Options -Indexes +FollowSymLinks
+        Require all granted
+    &lt;/Directory&gt;
+&lt;/VirtualHost&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>&#8230;&#8203;compared to, for example, the default vhost shipped Debian/Ubuntu-systems (Comments removed):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code>&lt;VirtualHost *:80&gt;
+        ServerAdmin webmaster@localhost
+        DocumentRoot /var/www/html
+
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+&lt;/VirtualHost&gt;</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>On initial install, a file with the name of <code>favicon.ico</code> (sourced from <a href="#apache_default_favicon">[apache_default_favicon]</a>) will be placed into <code>/var/www/html</code>
+if there was no file with said name before. This favicon, by default, resembles the Ansible logo as found on Wikimedia.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><em>Also, please note that this role does <strong>not</strong> delete the contents of <code>/var/www/html</code>
+(not even if it got created by/after apache2 initial install).</em></p>
+</div>
+</td>
+</tr>
+</table>
+</div>
 <div class="listingblock">
 <div class="content">
 <pre class="rouge highlight"><code data-lang="yaml"><span class="na">roles</span><span class="pi">:</span>
-  <span class="pi">-</span> <span class="s2">"</span><span class="s">jonaspammer.apache2"</span>
+  <span class="pi">-</span> <span class="s2">"</span><span class="s">apache2"</span></code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="exampleblock">
+<div class="title">Example 2. Logging</div>
+<div class="content">
+<div class="ulist">
+<ul>
+<li>
+<p>The following yaml:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="na">roles</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s2">"</span><span class="s">apache2"</span>
 
 <span class="na">vars</span><span class="pi">:</span>
-  <span class="na">some_var</span><span class="pi">:</span> <span class="s2">"</span><span class="s">some_value"</span></code></pre>
+  <span class="na">apache_vhost_filename</span><span class="pi">:</span> <span class="s2">"</span><span class="s">local2.dev.conf"</span>
+  <span class="na">apache_vhosts</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">servername</span><span class="pi">:</span> <span class="s2">"</span><span class="s">wwww.local2.dev"</span>
+      <span class="na">loglevel</span><span class="pi">:</span> <span class="s">info</span>
+      <span class="na">errorlog</span><span class="pi">:</span> <span class="s2">"</span><span class="s">{{</span><span class="nv"> </span><span class="s">apache__default_log_dir</span><span class="nv"> </span><span class="s">}}/local2-error.log"</span>
+      <span class="na">customlog</span><span class="pi">:</span>
+        <span class="na">path</span><span class="pi">:</span> <span class="s2">"</span><span class="s">${{</span><span class="nv"> </span><span class="s">apache__default_log_dir</span><span class="nv"> </span><span class="s">}}/local2-access.log"</span>
+        <span class="na">extra</span><span class="pi">:</span> <span class="s2">"</span><span class="s">combined"</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>generates the following VirtualHost:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code># Ansible managed.
+
+TODO</code></pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="exampleblock">
+<div class="title">Example 3. Usage of <code>extra_parameters</code></div>
+<div class="content">
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The pipe symbol at the end of a line in YAML signifies that any indented text that follows
+should be interpreted as a multi-line scalar value.
+See <a href="https://yaml-multiline.info/">yaml-multiline.info</a> for interactive explanation.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The following yaml:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="na">roles</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s2">"</span><span class="s">apache2"</span>
+
+<span class="na">vars</span><span class="pi">:</span>
+  <span class="na">apache_vhost_filename</span><span class="pi">:</span> <span class="s2">"</span><span class="s">myvhost.conf"</span>
+  <span class="na">apache_vhosts</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">servername</span><span class="pi">:</span> <span class="s2">"</span><span class="s">www.local.dev"</span>
+      <span class="na">serveralias</span><span class="pi">:</span> <span class="s2">"</span><span class="s">local.dev"</span>
+      <span class="na">documentroot</span><span class="pi">:</span> <span class="s2">"</span><span class="s">/var/www/html"</span>
+      <span class="na">extra_parameters</span><span class="pi">:</span> <span class="pi">|</span>
+          <span class="s"># Redirect all requests to 'www' subdomain. Apache 2.4+</span>
+          <span class="s">RewriteEngine On</span>
+          <span class="s">RewriteCond %{HTTP_HOST} !^www\. [NC]</span>
+          <span class="s">RewriteRule ^(.*)$ %{REQUEST_SCHEME}://www.%{HTTP_HOST}%{REQUEST_URI} [R=302,L]</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>generates the following VirtualHost:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code># Ansible managed.
+
+TODO</code></pre>
+</div>
+</div>
+</li>
+<li>
+<p>The following yaml:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="na">roles</span><span class="pi">:</span>
+<span class="pi">-</span> <span class="s2">"</span><span class="s">apache2"</span>
+
+<span class="na">vars</span><span class="pi">:</span>
+  <span class="na">apache_vhost_filename</span><span class="pi">:</span> <span class="s2">"</span><span class="s">myvhost.conf"</span>
+  <span class="na">apache_vhosts</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">servername</span><span class="pi">:</span> <span class="s2">"</span><span class="s">srvcmk.intra.jonaspammer.com"</span>
+      <span class="na">extra_parameters</span><span class="pi">:</span> <span class="pi">|</span>
+        <span class="s">Redirect / {{ checkmk_site_url }}</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>generates the following VirtualHost:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code># Ansible managed.
+DirectoryIndex index.php index.html
+&lt;VirtualHost *:80&gt;
+    ServerName srvcmk.intra.jonaspammer.com
+
+    Redirect / http://srvcmk.intra.jonaspammer.at/master
+&lt;/VirtualHost&gt;</code></pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="exampleblock">
+<div class="title">Example 4. Creating your own virtualhost file / Integrate into a role</div>
+<div class="content">
+<div class="paragraph">
+<p><em>The apache2 role may be executed multiple times in a play, with the primary purpose of
+<a href="https://docs.ansible.com/ansible/latest/user_guide/playbooks_reuse_roles.html#using-allow-duplicates-true">
+this allowance</a> being to be able to create virtualhosts.</em></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="pi">-</span> <span class="na">tasks</span><span class="pi">:</span>
+    <span class="s">#...</span>
+    <span class="s">- name</span><span class="err">:</span> <span class="s">Generate Apache2 VirtualHost.</span>
+      <span class="s">ansible.builtin.<mark>include_role</mark></span><span class="err">:</span> <span class="s2">"</span><span class="s">apache2"</span>
+      <span class="na">vars</span><span class="pi">:</span>
+        <span class="c1"><mark>apache_vhost_filename: "myapp.conf"</mark></span>
+        <span class="na">apache_vhosts</span><span class="pi">:</span>
+          <span class="pi">-</span> <span class="na">servername</span><span class="pi">:</span> <span class="s2">"</span><span class="s">www.myapp.dev"</span>
+            <span class="na">serveralias</span><span class="pi">:</span> <span class="s2">"</span><span class="s">myapp.dev"</span>
+            <span class="na">DocumentRoot</span><span class="pi">:</span> <span class="s2">"</span><span class="s">/opt/myapp"</span>
+  <span class="err">  </span><span class="s">#...</span></code></pre>
 </div>
 </div>
 </div>
@@ -995,14 +1858,14 @@ take a look at the matrix defined in <a href=".github/workflows/ci.yml" class="b
 <p>Run your molecule tests with the option <code>MOLECULE_DESTROY=never</code>, e.g.:</p>
 <div class="listingblock">
 <div class="content">
-<pre>$ <strong>MOLECULE_DESTROY=never MOLECULE_DISTRO=<mark>ubuntu1604</mark> tox -e py3-ansible-<mark>2.9</mark></strong>
+<pre>$ <strong>MOLECULE_DESTROY=never MOLECULE_DISTRO=<mark>ubuntu1604</mark> tox -e py3-ansible-<mark>5</mark></strong>
 ...
   TASK [ansible-role-pip : (redacted).] ************************
-  failed: [instance-py3-ansible-2.9] => changed=false
+  failed: [instance-py3-ansible-5] => changed=false
 ...
  ___________________________________ summary ____________________________________
   pre-commit: commands succeeded
-ERROR:   py3-ansible-2.9: commands failed</pre>
+ERROR:   py3-ansible-5: commands failed</pre>
 </div>
 </div>
 </li>
@@ -1011,7 +1874,7 @@ ERROR:   py3-ansible-2.9: commands failed</pre>
 <div class="listingblock">
 <div class="content">
 <pre>$ <strong>docker ps</strong>
-<mark>30e9b8d59cdf</mark>   geerlingguy/docker-debian10-ansible:latest   "/lib/systemd/systemd"   8 minutes ago   Up 8 minutes                                                                                                    instance-py3-ansible-2.9</pre>
+<mark>30e9b8d59cdf</mark>   geerlingguy/docker-debian10-ansible:latest   "/lib/systemd/systemd"   8 minutes ago   Up 8 minutes                                                                                                    instance-py3-ansible-5</pre>
 </div>
 </div>
 </li>
@@ -1382,7 +2245,7 @@ SOFTWARE.</pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-06-06 13:18:57 UTC
+Last updated 2022-06-12 20:13:13 UTC
 </div>
 </div>
 </body>
