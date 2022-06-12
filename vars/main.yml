@@ -4,14 +4,14 @@
 
 _apache__service:
   RedHat: &_apache__service_redhat httpd
-  Debian: apache2ctl # https://manpages.debian.org/buster/apache2-bin/apache2.8.en.html
-  Suse: apache2
-  Solaris: apache2
+  Debian: &_apache__service_debian apache2
+  Suse: *_apache__service_debian
+  Solaris: *_apache__service_debian
   Amazon_NA: *_apache__service_redhat
 
 _apache__daemon:
   RedHat: &_apache__daemon_redhat httpd
-  Debian: apache2
+  Debian: apache2ctl
   Suse: httpd2
   Solaris: *_apache__daemon_redhat
   Amazon_NA: *_apache__daemon_redhat
