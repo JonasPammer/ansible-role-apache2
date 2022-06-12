@@ -1,3 +1,6 @@
+- name: flush handlers
+  ansible.builtin.meta: flush_handlers
+
 - name: stat possibly already existing virtualhost file
   ansible.builtin.stat:
     path: "{{ apache_vhosts_file_path }}"
