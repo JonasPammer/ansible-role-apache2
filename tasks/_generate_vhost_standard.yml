@@ -30,7 +30,7 @@
   when: apache_create_vhosts | bool
 
 - name: Run a Apache configuration files syntax check
-  ansible.builtin.command: "{{ apache__daemon_dir }}/{{ apache__daemon }} -t"
+  ansible.builtin.shell: "{{ apache__daemon_dir }}/{{ apache__daemon }} -t" # noqa command-instead-of-shell
   changed_when: false
   ignore_errors: true
   register: apache2__register_command_config_syntax_test
