@@ -54,5 +54,6 @@
   when: apache2__register_command_config_syntax_test.failed
 
 - name: notify 'restart apache2' handler if configuriation files syntax check passed and virtualhost changed
+  meta: noop
   notify: restart apache
   when: apache2__register_template_vhost_file.changed
