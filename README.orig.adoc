@@ -163,6 +163,13 @@ https://fedoraproject.org/wiki/EPEL[EPEL]
 Head over to the <<example_playbooks>>-Section for
 examples showing how the produced VirtualHost-File may look like.
 
+[NOTE]
+====
+This role tries to ensure a *working* apache configuration by running
+https://httpd.apache.org/docs/2.4/programs/httpd.html[syntax tests for all configuration files (`-t`)]
+and reverting the generated virtualhost if an error occurred.
+====
+
 [source,yaml]
 ----
 apache_create_vhosts: true
