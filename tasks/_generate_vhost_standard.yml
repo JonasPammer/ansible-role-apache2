@@ -26,7 +26,7 @@
     owner: root
     group: root
     mode: 0644
-  notify: restart apache
+  register: apache2__register_template_vhost_file
   when: apache_create_vhosts | bool
 
 - name: Run a Apache configuration files syntax check
@@ -52,3 +52,7 @@
 - name: fail if apache configuration files syntax check failed
   ansible.builtin.fail:
   when: apache2__register_command_config_syntax_test.failed
+
+- name: notify 'restart apache2' handler if configuriation files syntax check passed and virtualhost changed
+  notify: restart apache
+  when: apache2__register_template_vhost_file.changed
