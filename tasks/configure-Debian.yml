@@ -20,17 +20,15 @@
   register: apache__register_looped_stat_of_vhosts_ssl_certificate_files
   with_items: "{{ apache_vhosts_ssl }}"
 
-- name: Generate configured Apache VirtualHost file in Debians 'site-available' directory and ensure correct owner/group/mode.
-  ansible.builtin.template:
-    src: "{{ apache_vhosts_template }}"
-    dest: "{{ apache__server_conf_dir }}/sites-available/{{ apache_vhosts_filename }}"
-    owner: root
-    group: root
-    mode: 0644
+- name: Remove default vhost from Debians 'sites-enabled' directory (when configured).
+  ansible.builtin.file:
+    path: "{{ apache__server_conf_dir }}/sites-enabled/{{ apache__default_vhost_filename }}"
+    state: absent
   notify: restart apache
-  when: apache_create_vhosts | bool
+  when: apache_remove_default_vhost
 
-- name: Add symlink to generated VirtualHost file in Debians 'sites-enabled' directory and ensure correct mode.
+# links can point to non existing files!
+- name: Add symlink in Debians 'sites-enabled' directory and ensure correct mode.
   ansible.builtin.file:
     src: "{{ apache__server_conf_dir }}/sites-available/{{ apache_vhosts_filename }}"
     dest: "{{ apache__server_conf_dir }}/sites-enabled/{{ apache_vhosts_filename }}"
@@ -39,9 +37,5 @@
   notify: restart apache
   when: apache_create_vhosts | bool
 
-- name: Remove default vhost from Debians 'sites-enabled' directory (when configured).
-  ansible.builtin.file:
-    path: "{{ apache__server_conf_dir }}/sites-enabled/{{ apache__default_vhost_filename }}"
-    state: absent
-  notify: restart apache
-  when: apache_remove_default_vhost
+- name: include tasks to safely generate vhost
+  ansible.builtin.include_tasks: "_generate_vhost_standard.yml"
