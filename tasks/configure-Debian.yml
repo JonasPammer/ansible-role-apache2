@@ -33,7 +33,7 @@
     dest: "{{ apache__server_conf_dir }}/sites-enabled/{{ apache_vhosts_filename }}"
     state: link
     mode: 0644
-    force: yes
+    force: true
   notify: restart apache
   when: apache_create_vhosts | bool
 

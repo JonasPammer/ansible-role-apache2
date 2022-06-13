@@ -49,7 +49,7 @@
     owner: root
     group: root
     mode: 0644
-    force: yes
+    force: true
   when: apache2__register_stat_vhost_file.stat.exists and apache2__register_command_config_syntax_test.failed
 
 - name: delete generated virtualhost file if apache configuration files syntax check failed and there was no virtualhost file before
