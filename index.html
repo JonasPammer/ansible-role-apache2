@@ -1537,23 +1537,19 @@ as well as the recursive tree of their soft dependencies.</p>
 <div class="exampleblock">
 <div class="title">Example 1. Standard Installation needs no variables</div>
 <div class="content">
-<div class="admonitionblock note">
-<table>
-<tr>
-<td class="icon">
-<div class="title">Note</div>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>Given no role configuration, the deviance&#8217;s from just installing Apache2 yourself are</p>
-</div>
 <div class="ulist">
 <ul>
 <li>
-<p>certain modules get activated by default (<code><a href="#apache_mods_enabled">[apache_mods_enabled]</a></code>).</p>
-</li>
-<li>
-<p>the system will have the following VirtualHost:</p>
+<p>The following yaml:</p>
+<div class="listingblock">
+<div class="content">
+<pre class="rouge highlight"><code data-lang="yaml"><span class="na">roles</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s2">"</span><span class="s">apache2"</span></code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>generates the following VirtualHost:</p>
+</div>
 <div class="listingblock">
 <div class="content">
 <pre class="rouge highlight"><code># Ansible managed
@@ -1571,7 +1567,8 @@ DirectoryIndex index.php index.html
 </div>
 </div>
 <div class="paragraph">
-<p>&#8230;&#8203;compared to, for example, the default vhost shipped Debian/Ubuntu-systems (Comments removed):</p>
+<p>For Reference, this is the default vhost shipped with Debian/Ubuntu systems
+(which can be removed by setting <code>apache_remove_default_vhost</code> to true)</p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -1585,6 +1582,19 @@ DirectoryIndex index.php index.html
 </div>
 </div>
 </li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Given no role configuration, the deviance&#8217;s from just installing Apache2 yourself are</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>certain modules get activated by default (<code><a href="#apache_mods_enabled">[apache_mods_enabled]</a></code>).</p>
+</li>
+<li>
+<p>the system will have the above demonstrated VirtualHost</p>
+</li>
 <li>
 <p>On initial install, a file with the name of <code>favicon.ico</code> (sourced from <a href="#apache_default_favicon">[apache_default_favicon]</a>) will be placed into <code>/var/www/html</code>
 if there was no file with said name before. This favicon, by default, resembles the Ansible logo as found on Wikimedia.</p>
@@ -1594,16 +1604,6 @@ if there was no file with said name before. This favicon, by default, resembles 
 <div class="paragraph">
 <p><em>Also, please note that this role does <strong>not</strong> delete the contents of <code>/var/www/html</code>
 (not even if it got created by/after apache2 initial install).</em></p>
-</div>
-</td>
-</tr>
-</table>
-</div>
-<div class="listingblock">
-<div class="content">
-<pre class="rouge highlight"><code data-lang="yaml"><span class="na">roles</span><span class="pi">:</span>
-  <span class="pi">-</span> <span class="s2">"</span><span class="s">apache2"</span></code></pre>
-</div>
 </div>
 </div>
 </div>
@@ -1736,8 +1736,8 @@ DirectoryIndex index.php index.html
 <div class="content">
 <div class="paragraph">
 <p><em>The apache2 role may be executed multiple times in a play, with the primary purpose of
-<a href="https://docs.ansible.com/ansible/latest/user_guide/playbooks_reuse_roles.html#using-allow-duplicates-true">
-this allowance</a> being to be able to create virtualhosts.</em></p>
+<a href="https://docs.ansible.com/ansible/latest/user_guide/playbooks_reuse_roles.html#using-allow-duplicates-true">this allowance</a>
+being to be able to create virtualhosts.</em></p>
 </div>
 <div class="listingblock">
 <div class="content">
@@ -2245,7 +2245,7 @@ SOFTWARE.</pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-06-12 20:13:13 UTC
+Last updated 2022-06-24 09:41:45 UTC
 </div>
 </div>
 </body>
