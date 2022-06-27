@@ -5,40 +5,40 @@
   ansible.builtin.assert:
     that:
       - apache_packages is defined
-      - apache_packages | type_debug in ["list", "string"]
+      - apache_packages is string or apache_packages is iterable
     quiet: true
 
 - name: test if 'apache_mods_enabled' is set correctly
   ansible.builtin.assert:
     that:
       - apache_mods_enabled is defined
-      - apache_mods_enabled | type_debug in ["list"]
+      - apache_mods_enabled is iterable
     quiet: true
 
 - name: test if 'apache_mods_disabled' is set correctly
   ansible.builtin.assert:
     that:
       - apache_mods_disabled is defined
-      - apache_mods_disabled | type_debug in ["list"]
+      - apache_mods_disabled is iterable
     quiet: true
 
 - name: test if 'apache_remove_default_vhost' is set correctly
   ansible.builtin.assert:
     that:
       - apache_remove_default_vhost is defined
-      - apache_remove_default_vhost | type_debug in ["bool"]
+      - apache_remove_default_vhost is boolean
     quiet: true
 
 - name: test if 'apache_listen_port' is set correctly
   ansible.builtin.assert:
     that:
       - apache_listen_port is defined
-      - apache_listen_port | type_debug in ["int"]
+      - apache_listen_port is integer
     quiet: true
 
 - name: test if 'apache_listen_port_ssl' is set correctly
   ansible.builtin.assert:
     that:
       - apache_listen_port_ssl is defined
-      - apache_listen_port_ssl | type_debug in ["int"]
+      - apache_listen_port_ssl is integer
     quiet: true
