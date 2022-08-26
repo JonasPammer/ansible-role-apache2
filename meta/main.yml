@@ -4,7 +4,7 @@ galaxy_info:
   description: "An ansible role for installing Apache2, enabling/disabling modules, configuring its defaults and creating virtual hosts."
 
   author: "jonaspammer"
-  license: MIT
+  license: "MIT"
 
   min_ansible_version: "2.11"
   platforms:
