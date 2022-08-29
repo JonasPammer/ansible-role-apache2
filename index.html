@@ -1173,13 +1173,9 @@ Used only when you want a http-to-https redirect you defined in <code>extra_para
 </dd>
 <dt class="hdlist1"><a href="https://httpd.apache.org/docs/2.4/mod/mod_log_config.html#logformat"><code>logformat</code></a></dt>
 <dt class="hdlist1"><code><a href="https://httpd.apache.org/docs/2.4/mod/core.html#loglevel">loglevel</a></code></dt>
-</dl>
-</div>
-<div id="apache_vhosts__errorlog" class="dlist">
-<dl>
 <dt class="hdlist1"><code><a href="https://httpd.apache.org/docs/2.4/mod/core.html#errorlog">errorlog</a></code></dt>
 <dd>
-<p>Equivalent of <a href="#apache_vhosts__errorlogs">apache_vhosts.errorlogs</a>.</p>
+<p>Equivalent of <a href="#apache_vhosts__errorlog">apache_vhosts.errorlog</a>.</p>
 </dd>
 <dt class="hdlist1"><code><a href="https://httpd.apache.org/docs/2.4/mod/mod_log_config.html#customlog">customlogs</a></code></dt>
 <dd>
@@ -1439,10 +1435,10 @@ which <a href="http://httpd.apache.org/docs/2.4/mod/core.html#include">
 to determine listening ports for incoming connections.</p>
 </div>
 <div class="paragraph">
-<p>On some systems this is the same as <code>apache<em>primary_configuration_file_path</code>,
+<p>On some systems this is the same as <code>apache__primary_configuration_file_path</code>,
 but on some it is an own file which is being
 <a href="http://httpd.apache.org/docs/2.4/mod/core.html#include">
-<code>Include</code></a>-ed by said <code>apache</em>primary_configuration_file_path</code>.</p>
+<code>Include</code></a>-ed by said <code>apache__primary_configuration_file_path</code>.</p>
 </div>
 </div>
 </div>
@@ -2329,7 +2325,7 @@ SOFTWARE.</pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-08-29 10:27:49 UTC
+Last updated 2022-08-29 15:41:25 UTC
 </div>
 </div>
 </body>
