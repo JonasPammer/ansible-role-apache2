@@ -681,7 +681,7 @@ requirements.yml dependency graph of jonaspammer.apache2]
 ====
 
 
-.Standard Installation needs no variables
+.Standard Installation (no variables)
 ====
 * The following yaml:
 +
@@ -730,9 +730,8 @@ Given no role configuration, the deviance's from just installing Apache2 yoursel
 * On initial install, a file with the name of `favicon.ico` (sourced from <<apache_default_favicon>>) will be placed into `/var/www/html`
 if there was no file with said name before. This favicon, by default, resembles the Ansible logo as found on Wikimedia.
 
-_Also, please note that this role does *not* delete the contents of `/var/www/html`
+_Please note that this role does *not* delete the contents of `/var/www/html`
 (not even if it got created by/after apache2 initial install)._
-
 ====
 
 
