@@ -50,7 +50,9 @@ If you are using Apache with PHP, I recommend using the
 https://github.com/geerlingguy/ansible-role-php/[geerlingguy.php] role
 to install PHP, and you can either use `mod_php`
 (by adding the proper package, e.g. `libapache2-mod-php5` for Ubuntu, to `php_packages`),
-or by also using `geerlingguy.apache-php-fpm` to connect Apache to PHP via FPM.
+or by also using 
+https://github.com/geerlingguy/ansible-role-apache-php-fpm[`geerlingguy.apache-php-fpm` ]
+to connect Apache to PHP via FPM.
 Please consult the README's of the linked roles for more specific information.
 
 When targeting Solaris-based systems,
