@@ -377,9 +377,8 @@ https://httpd.apache.org/docs/2.4/mod/mod_log_config.html#logformat[`logformat`]
 
 `https://httpd.apache.org/docs/2.4/mod/core.html#loglevel[loglevel]`::
 
-[[apache_vhosts__errorlog]]
 `https://httpd.apache.org/docs/2.4/mod/core.html#errorlog[errorlog]`::
-Equivalent of <<apache_vhosts__errorlogs,apache_vhosts.errorlogs>>.
+Equivalent of <<apache_vhosts__errorlog,apache_vhosts.errorlog>>.
 
 `https://httpd.apache.org/docs/2.4/mod/mod_log_config.html#customlog[customlogs]`::
 Array of CustomLogs.
@@ -426,7 +425,7 @@ is meant to be used not just internally.
 
 
 [[apache__service]]
-.`apache__service`
+.`pass:[apache__service]`
 ****
 .Example Usage outside this role:
 [source,yaml]
@@ -448,7 +447,7 @@ Executable Name and Directory of the `apache2` command.
 
 
 [[apache__server_root_dir]]
-.`apache__server_root_dir`
+.`pass:[apache__server_root_dir]`
 ****
 Directory containing all Apache2 configuration (in `/etc`).
 ****
@@ -468,7 +467,7 @@ order to make automating the changes and administering the server as easy as
 possible.
 ______
 
-This means that the `apache__server_root_dir`
+This means that the `pass:[apache__server_root_dir]`
 *on Debian* looks like this:
 
 .`tree /etc/apache2` of a fresh Debian 10 machine after apache2 install
@@ -543,7 +542,7 @@ While #on other systems it looks like this#:
 
 
 [[apache__primary_configuration_file_path]]
-.`apache__primary_configuration_file_path`
+.`pass:[apache__primary_configuration_file_path]`
 ****
 Apache2's primary configuration file,
 which http://httpd.apache.org/docs/2.4/mod/core.html#include[
@@ -552,7 +551,7 @@ which http://httpd.apache.org/docs/2.4/mod/core.html#include[
 .Taking a look into how what is Include'ed
 [TIP]
 ====
-Debian's Apache2 Include Directives as found in `apache__primary_configuration_file_path`:
+Debian's Apache2 Include Directives as found in `pass:[apache__primary_configuration_file_path]`:
 
 [source,ini]
 ----
@@ -571,7 +570,7 @@ IncludeOptional conf-enabled/*.conf
 IncludeOptional sites-enabled/*.conf
 ----
 
-RHEL's Apache2 Include Directives as found in `apache__primary_configuration_file_path` on a CentOS 8 Machine:
+RHEL's Apache2 Include Directives as found in `pass:[apache__primary_configuration_file_path]` on a CentOS 8 Machine:
 
 [source,ini]
 ----
@@ -595,20 +594,20 @@ IncludeOptional conf.d/*.conf
 
 
 [[apache__ports_configuration_file]]
-.`apache__ports_configuration_file`
+.`pass:[apache__ports_configuration_file]`
 *****
 Apache2 Configuration File that houses the directives used
 to determine listening ports for incoming connections.
 
-On some systems this is the same as `apache__primary_configuration_file_path`,
+On some systems this is the same as `pass:[apache__primary_configuration_file_path]`,
 but on some it is an own file which is being
 http://httpd.apache.org/docs/2.4/mod/core.html#include[
-`Include`]-ed by said `apache__primary_configuration_file_path`.
+`Include`]-ed by said `pass:[apache__primary_configuration_file_path]`.
 *****
 
 
 [[apache__server_conf_dir]]
-.`apache__server_conf_dir`
+.`pass:[apache__server_conf_dir]`
 ****
 Directory which houses all http://httpd.apache.org/docs/2.4/mod/core.html#include[
 `Include`]-ed files.
@@ -619,7 +618,7 @@ to know what Directories are being `Include`-ed by default on different OS'es.
 ****
 
 [[apache__default_log_dir]]
-.`apache__default_log_dir`
+.`pass:[apache__default_log_dir]`
 ****
 Directory in `/var` used by default for all virtual hosts.
 
