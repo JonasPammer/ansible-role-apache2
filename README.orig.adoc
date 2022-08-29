@@ -118,7 +118,7 @@ Recommended values: `true` or `false`
 apache_restart_state: restarted
 ----
 Sets the state to put apache in when a configuration change was made
-(i.e., when the handler has been called).
+(i.e., when the `restart apache` handler has been called).
 Recommended values: `restarted` or `reloaded`
 
 [[apache_default_favicon]]
