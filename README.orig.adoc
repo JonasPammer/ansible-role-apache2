@@ -416,6 +416,12 @@ Executable Name and Directory of the `apache2` command.
 ****
 
 
+[[apache__server_root_dir]]
+.`apache__server_root_dir`
+****
+Directory containing all Apache2 configuration (in `/etc`).
+****
+
 [[debian_is_different_note]]
 [NOTE]
 ====
@@ -503,13 +509,6 @@ While #on other systems it looks like this#:
     └── …
 ----
 ====
-
-
-[[apache__server_root_dir]]
-.`apache__server_root_dir`
-****
-Directory containing all Apache2 configuration (in `/etc`).
-****
 
 
 [[apache__primary_configuration_file_path]]
