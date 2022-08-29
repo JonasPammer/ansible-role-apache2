@@ -81,7 +81,9 @@ If you are using Apache with PHP, I recommend using the
 https://github.com/geerlingguy/ansible-role-php/[geerlingguy.php] role
 to install PHP, and you can either use `mod_php`
 (by adding the proper package, e.g. `libapache2-mod-php5` for Ubuntu, to `php_packages`),
-or by also using `geerlingguy.apache-php-fpm` to connect Apache to PHP via FPM.
+or by also using
+https://github.com/geerlingguy/ansible-role-apache-php-fpm[`geerlingguy.apache-php-fpm` ]
+to connect Apache to PHP via FPM.
 Please consult the README's of the linked roles for more specific information.
 
 When targeting Solaris-based systems,
@@ -147,7 +149,7 @@ Recommended values: `true` or `false`
 apache_restart_state: restarted
 ----
 Sets the state to put apache in when a configuration change was made
-(i.e., when the handler has been called).
+(i.e., when the `restart apache` handler has been called).
 Recommended values: `restarted` or `reloaded`
 
 [[apache_default_favicon]]
@@ -429,8 +431,8 @@ is meant to be used not just internally.
 .Example Usage outside this role:
 [source,yaml]
 ----
-# handlers file for roles/xyz
-- name: restart httpd
+# handlers file for roles.xyz
+- name: restart apache2
   ansible.builtin.service:
     name: "{{ apache__service | default('apache2') }}"
     state: restarted
@@ -444,6 +446,12 @@ is meant to be used not just internally.
 Executable Name and Directory of the `apache2` command.
 ****
 
+
+[[apache__server_root_dir]]
+.`apache__server_root_dir`
+****
+Directory containing all Apache2 configuration (in `/etc`).
+****
 
 [[debian_is_different_note]]
 [NOTE]
@@ -532,13 +540,6 @@ While #on other systems it looks like this#:
     └── …
 ----
 ====
-
-
-[[apache__server_root_dir]]
-.`apache__server_root_dir`
-****
-Directory containing all Apache2 configuration (in `/etc`).
-****
 
 
 [[apache__primary_configuration_file_path]]
