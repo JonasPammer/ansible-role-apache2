@@ -346,7 +346,7 @@ https://httpd.apache.org/docs/2.4/mod/mod_log_config.html#logformat[`logformat`]
 
 `https://httpd.apache.org/docs/2.4/mod/core.html#loglevel[loglevel]`::
 
-[[apache_vhosts__errorlog]]
+[[apache_vhosts_ssl__errorlog]]
 `https://httpd.apache.org/docs/2.4/mod/core.html#errorlog[errorlog]`::
 Equivalent of <<apache_vhosts__errorlogs,apache_vhosts.errorlogs>>.
 
