@@ -791,7 +791,9 @@ pre.rouge {
 <a href="https://github.com/geerlingguy/ansible-role-php/">geerlingguy.php</a> role
 to install PHP, and you can either use <code>mod_php</code>
 (by adding the proper package, e.g. <code>libapache2-mod-php5</code> for Ubuntu, to <code>php_packages</code>),
-or by also using <code>geerlingguy.apache-php-fpm</code> to connect Apache to PHP via FPM.
+or by also using
+<a href="https://github.com/geerlingguy/ansible-role-apache-php-fpm"><code>geerlingguy.apache-php-fpm</code> </a>
+to connect Apache to PHP via FPM.
 Please consult the README&#8217;s of the linked roles for more specific information.</p>
 </div>
 <div class="paragraph">
@@ -868,7 +870,7 @@ Recommended values: <code>true</code> or <code>false</code></p>
 </div>
 <div class="paragraph">
 <p>Sets the state to put apache in when a configuration change was made
-(i.e., when the handler has been called).
+(i.e., when the <code>restart apache</code> handler has been called).
 Recommended values: <code>restarted</code> or <code>reloaded</code></p>
 </div>
 <div id="apache_default_favicon" class="listingblock">
@@ -1236,8 +1238,8 @@ is meant to be used not just internally.</p>
 <div class="listingblock">
 <div class="title">Example Usage outside this role:</div>
 <div class="content">
-<pre class="rouge highlight"><code data-lang="yaml"><span class="c1"># handlers file for roles/xyz</span>
-<span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">restart httpd</span>
+<pre class="rouge highlight"><code data-lang="yaml"><span class="c1"># handlers file for roles.xyz</span>
+<span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">restart apache2</span>
   <span class="na">ansible.builtin.service</span><span class="pi">:</span>
     <span class="na">name</span><span class="pi">:</span> <span class="s2">"</span><span class="s">{{</span><span class="nv"> </span><span class="s">apache__service</span><span class="nv"> </span><span class="s">|</span><span class="nv"> </span><span class="s">default('apache2')</span><span class="nv"> </span><span class="s">}}"</span>
     <span class="na">state</span><span class="pi">:</span> <span class="s">restarted</span></code></pre>
@@ -1250,6 +1252,14 @@ is meant to be used not just internally.</p>
 <div class="title"><code>apache__daemon_dir</code>, <code>apache__daemon</code></div>
 <div class="paragraph">
 <p>Executable Name and Directory of the <code>apache2</code> command.</p>
+</div>
+</div>
+</div>
+<div id="apache__server_root_dir" class="sidebarblock">
+<div class="content">
+<div class="title"><code>apache__server_root_dir</code></div>
+<div class="paragraph">
+<p>Directory containing all Apache2 configuration (in <code>/etc</code>).</p>
 </div>
 </div>
 </div>
@@ -1357,14 +1367,6 @@ possible.</p>
 </td>
 </tr>
 </table>
-</div>
-<div id="apache__server_root_dir" class="sidebarblock">
-<div class="content">
-<div class="title"><code>apache__server_root_dir</code></div>
-<div class="paragraph">
-<p>Directory containing all Apache2 configuration (in <code>/etc</code>).</p>
-</div>
-</div>
 </div>
 <div id="apache__primary_configuration_file_path" class="sidebarblock">
 <div class="content">
@@ -2318,7 +2320,7 @@ SOFTWARE.</pre>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-08-28 19:30:18 UTC
+Last updated 2022-08-29 10:02:51 UTC
 </div>
 </div>
 </body>
