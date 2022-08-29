@@ -400,8 +400,8 @@ is meant to be used not just internally.
 .Example Usage outside this role:
 [source,yaml]
 ----
-# handlers file for roles/xyz
-- name: restart httpd
+# handlers file for roles.xyz
+- name: restart apache2
   ansible.builtin.service:
     name: "{{ apache__service | default('apache2') }}"
     state: restarted
