@@ -471,7 +471,7 @@ ______
 This means that the `apache__server_root_dir`
 *on Debian* looks like this:
 
-./etc/apache2 on a fresh Debian 10 machine
+.`tree /etc/apache2` of a fresh Debian 10 machine after apache2 install
 ----
 .
 ├── apache2.conf
@@ -507,7 +507,7 @@ This means that the `apache__server_root_dir`
 
 While #on other systems it looks like this#:
 
-./etc/httpd on a fresh CentOS 8 machine
+.`tree /etc/apache2` of a fresh CentOS 8 machine after apache2 install
 ----
 .
 ├── conf
