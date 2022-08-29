@@ -592,9 +592,12 @@ to know what Directories are being `Include`-ed by default on different OS'es.
 ****
 Directory in `/var` used by default for all virtual hosts.
 
+The below output shows the typical default file contents 
+of this folder for the major distros:
+
 .RedHat
 ----
-[root@instance-py3-ansible-5 /]# ll /var/log/httpd/
+[root@instance-py3-ansible-5 /]# ls -l /var/log/httpd/
 total 8
 -rw-r--r-- 1 root root   0 Jun 11 11:16 access_log
 -rw-r--r-- 1 root root 980 Jun 11 11:16 error_log
@@ -605,7 +608,12 @@ total 8
 
 .Debian
 ----
-
+root@instance-py3-ansible-5-debian10:/# ls -l /var/log/apache2
+total 4
+-rw-r----- 1 root adm     0 Aug 29 10:17 access.log
+-rw-r----- 1 root adm  2133 Aug 29 10:18 error.log
+-rw-r--r-- 1 root root    0 Aug 29 10:18 local2-error.log
+-rw-r----- 1 root adm     0 Aug 29 10:17 other_vhosts_access.log
 ----
 ****
 
