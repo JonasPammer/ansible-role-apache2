@@ -17,7 +17,8 @@ Below you can find information on…
     ---
     galaxy_info:
       role_name: "apache2"
-      description: "An ansible role for installing Apache2, enabling/disabling modules,
+      description:
+        "An ansible role for installing Apache2, enabling/disabling modules,
         configuring its defaults and creating virtual hosts.
         Based on geerlingguy's apache2 role. "
 
