@@ -21,6 +21,7 @@ Below you can find information on…
         "An ansible role for installing Apache2, enabling/disabling modules,
         configuring its defaults and creating virtual hosts.
         Based on geerlingguy's apache2 role. "
+      standalone: true
 
       author: "jonaspammer"
       license: "MIT"
