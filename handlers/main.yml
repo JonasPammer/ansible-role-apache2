@@ -1,6 +1,6 @@
 ---
 # handlers file of ansible-role jonaspammer.apache2
 - name: restart apache
-  service:
+  ansible.builtin.service:
     name: "{{ apache__service }}"
     state: "{{ apache_restart_state }}"
