@@ -1,5 +1,5 @@
 ---
-- name: Enable configured Apache mods (Debian).
+- name: Enable configured Apache mods (RedHat).
   ansible.builtin.copy:
     dest: "{{ apache__server_root_dir }}/conf.modules.d/99-ansible-{{ item }}.conf"
     content: |
@@ -8,7 +8,7 @@
   with_items: "{{ apache_mods_enabled }}"
   notify: restart apache
 
-- name: Disable configured Apache mods (Debian).
+- name: Disable configured Apache mods (RedHat).
   ansible.builtin.file:
     path: "{{ apache__server_root_dir }}/conf.modules.d/99-ansible-{{ item }}.conf"
     state: absent
