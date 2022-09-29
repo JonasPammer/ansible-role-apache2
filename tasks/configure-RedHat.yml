@@ -1,5 +1,5 @@
 ---
-- name: Enable configured Apache mods (RedHat).
+- name: Enable configured Apache mods (RedHat). # noqa template-instead-of-copy
   ansible.builtin.copy:
     dest: "{{ apache__server_root_dir }}/conf.modules.d/99-ansible-{{ item }}.conf"
     content: |
