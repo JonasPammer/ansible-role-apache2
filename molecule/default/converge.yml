@@ -4,14 +4,14 @@
   become: true
 
   roles:
-    - role: "ansible-role-apache2"
+    - name: "ansible-role-apache2"
       vars:
         apache_vhosts_filename: "simple.conf"
         apache_vhosts:
           - servername: "www.local1.dev"
             documentroot: "/var/www/vhosts/example_com"
 
-    - role: "ansible-role-apache2"
+    - name: "ansible-role-apache2"
       vars:
         apache_vhosts_filename: "log_test.conf"
         apache_vhosts:
@@ -22,7 +22,7 @@
               path: "${{ apache__default_log_dir }}/local2-access.log"
               extra: "combined"
 
-    - role: "ansible-role-apache2"
+    - name: "ansible-role-apache2"
       vars:
         apache_vhosts_filename: "extra_params_test.conf"
         apache_vhosts:
@@ -35,7 +35,7 @@
               RewriteCond %{HTTP_HOST} !^www\. [NC]
               RewriteRule ^(.*)$ %{REQUEST_SCHEME}://www.%{HTTP_HOST}%{REQUEST_URI} [R=302,L]
 
-    - role: "ansible-role-apache2"
+    - name: "ansible-role-apache2"
       vars:
         apache_vhosts_filename: "no_actual_ssl.conf"
         apache_ssl_vhosts_ignore_missing_certificate: true # https only for redirect to http
