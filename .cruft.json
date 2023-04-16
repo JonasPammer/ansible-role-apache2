@@ -16,7 +16,7 @@
       "min_ansible_version": "2.11",
       "allow_duplicates": "no",
       "ansible_user_needs_to_become": "True",
-      "use_renovate": "False",
+      "use_renovate": "y",
       "role_name": "apache2",
       "project_slug": "ansible-role-apache2",
       "project_short_purpose": "installing Apache2, enabling/disabling modules, configuring its defaults and creating virtual hosts.",
