@@ -29,7 +29,7 @@ jobs:
           ruby-version: "2.7.0"
 
       - name: set up python 3
-        uses: actions/setup-python@b55428b1882923874294fa556849718a1d7f2ca5 # tag=v4
+        uses: actions/setup-python@61a6322f88396a6271a6ee3565807d608ecaddd1 # v4
         with:
           python-version: "3.x"
 
